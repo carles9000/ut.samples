@@ -1,0 +1,150 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb, hCredentials
+	
+	//	Auth system...
+	
+		if ! Authorization()
+			retu nil
+		endif
+		
+	//	-------------------------
+	
+	hCredentials := USession( 'credentials' )
+	
+	DEFINE WEB oWeb TITLE AppTitle()
+		
+		oWeb:AddCss( "https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" )
+		
+		HTML oWeb FILE 'view/menu.html' PARAMS oWeb, 'About', hCredentials			
+		
+		DEFINE FORM o ID 'about' API 'test' OF oWeb 			
+			o:cSizing  := 'sm'
+			o:lDessign := .f.
+			o:lFluid 	:= .t.
+		
+		
+		
+		HTML o FILE 'view/crumb.html' PARAMS o, 'About' 
+		
+		HTML o 
+			<style>			
+
+				.face img{
+					width:150px;					    
+				}
+				
+				.face {
+					padding:0
+				}
+				
+				.about_author {
+					font-size: 20px;					
+					font-family: 'Bruno Ace SC', cursive;		
+				}
+
+				.about_it {
+					font-size: 18px;					
+					font-family: 'Bruno Ace SC', cursive;		
+				}					
+				
+				.about_info {
+					font-size: 16px;					
+					font-family: 'Bruno Ace SC', cursive;		
+				}				
+				
+				@media screen and (max-width: 600px) {
+					.face img{
+						width: 100px !important;		
+					}
+					
+					.about_logo {
+						padding:0;
+					}
+					
+					.about_logo img {
+						width:120px;
+					}
+					
+					.about_author {
+						font-size: 11px;
+						font-weight: normal;		
+					}
+					
+					.about_it {
+						font-size: 11px;
+						font-weight: normal;			
+					}	
+					
+					.about_info {
+						font-size: 12px;		
+						font-weight: normal;	
+					}			
+				}				
+			
+			</style>
+		
+		ENDTEXT 
+
+		INIT FORM o 
+		
+			ROWGROUP o CLASS 'pt-2'
+				
+				COL o GRID 5 
+					IMAGE FILE 'files/images/logo-u-sql.png' BIGFILE 'files/images/twebuhttpd2.png' ;
+						ALIGN 'center' CLASS 'about_logo' GRID 12 OF o				
+				ENDCOL o 
+			
+				COL o GRID 7
+				
+					ROWGROUP o 
+						IMAGE ID 'about_image' FILE 'files/images/charly.png' ;
+							ALIGN 'center' CLASS 'face' GRID 12 OF o										
+					ENDROW o
+				
+					SAY CLASS 'about_author' PROMPT 'Charly Aubia Floresvi' ALIGN 'center' GRID 12 OF o
+					SAY CLASS 'about_it' PROMPT 'IT Software' ALIGN 'center' GRID 12 OF o
+				
+				ENDCOL o 			
+			
+			ENDROW o 
+			
+			
+			ROWGROUP o CLASS 'pt-2' 
+			
+				COL o GRID 12
+				
+					HTML o 
+					<span class="about_info">
+This project is the result of these last years looking for the easiest way
+that we can offer a harbour programmer to be able to jump to the web
+<br><br>
+U-Sql is an example of how you can very easily make this leap with few resources
+since what is sought is that you do not need to be experts in servers like apache,
+great knowledge of the basic languages of the web (html, javascript, css), knowledge
+of protocols, web flows,...
+<br><br>
+Obviously the program has many possibilities and it only pretends to be a
+brushwork that tries to demonstrate various techniques so that you can see how easy it is to
+now it can be to make the leap to the web.
+<br><br>
+It's not just words, compile it yourself, experiment with the new way of working on the web
+<img  src="files/images/smile.gif" style="width:24px;"></img> 
+<br><br>
+I invite you to see the code and understand the new way to create applications for the web. 
+The entire program is available at <a href="https://github.com/carles9000/u-sql">https://github.com/carles9000/ut-sql</a>
+<br><br>
+There is also a site where we can discuss anything about the program and the project. 
+You can access to <a href="https://discord.gg/bq8a9yGMWh">Discord channel</a>
+					</span>
+					ENDTEXT
+
+				ENDCOL o			
+
+			ENDROW o 
+			
+		ENDFORM o
+			
+	INIT WEB oWeb RETURN
+?>

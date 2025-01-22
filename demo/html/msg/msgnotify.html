@@ -1,0 +1,55 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+#define IS_DESSIGN 	.T.
+
+    LOCAL o
+
+	DEFINE WEB oWeb TITLE 'MsgNotify' 
+	
+	HTML oWeb FILE 'tpl\header_examples.tpl' PARAMS 'Messages', 'MsgNotify'
+
+    DEFINE FORM o OF oWeb			
+
+		INIT FORM o  
+		
+			ROWGROUP o
+				SAY VALUE "MsgNotify()" GRID 6 ALIGN 'right' OF o
+				BUTTON LABEL 'Test' GRID 4 ACTION "MsgNotify( 'Hello! I\'m a notify' )"  OF o        			
+			ENDROW o
+			
+			ROWGROUP o
+				SAY VALUE "Test all types" GRID 6 ALIGN 'right' OF o
+				BUTTON LABEL 'Test' GRID 4 ACTION "TestTypes()"  OF o        			
+			ENDROW o		
+			
+			ROWGROUP o
+				SAY VALUE "Example native function $.notify()" GRID 6 ALIGN 'right' OF o
+				BUTTON LABEL 'Test' GRID 4 ACTION "TestNative()"  OF o        			
+			ENDROW o	
+			
+			
+			HTML o
+				<script>
+				
+					function TestTypes() {
+
+						NotifyInfo( 'Test NotifyInfo()' )
+						NotifySuccess( 'Test NotifySuccess()' )
+						NotifyError( 'Test NotifyError()' )
+						NotifyWarn( 'Test NotifyWarn()' )  							
+					}							 
+
+					function TestNative() {
+					
+						$.notify( 'No class !', { className: 'dummy' })												
+					}	
+					
+				</script>		
+			ENDTEXT	
+				
+		ENDFORM o	
+	
+	INIT WEB oWeb RETURN
+	
+	
+?>

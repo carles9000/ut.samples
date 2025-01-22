@@ -1,0 +1,276 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb, oBrw, oFld
+
+	LOCAL cCss 		:= 'tabulator_simple.min.css'	//'tabulator_modern.css'
+	LOCAL hCfg 		:= {=>}
+	LOCAL cTitle 	:= ''
+	LOCAL aTags  	:= {}
+	LOCAL hCredentials
+
+	//	Auth system...
+	
+		if ! Authorization( 'A' )
+			retu nil
+		endif
+		
+	//	-------------------------
+	
+	hCredentials := USession( 'credentials' )
+	
+	DEFINE WEB oWeb TITLE AppTitle()
+	
+		oWeb:AddJs( 'https://oss.sheetjs.com/sheetjs/xlsx.full.min.js' )
+		oWeb:AddCss( 'https://unpkg.com/tabulator-tables@5.4.3/dist/css/' + cCss )
+		
+		oWeb:AddCss( 'files/css/app.css' )		
+		
+		
+		HTML oWeb FILE 'view/menu.html' PARAMS oWeb, 'Define Sql', hCredentials
+			
+		
+		DEFINE FORM o ID 'defsql' API 'api_defsql' OF oWeb 			
+			o:cSizing   := 'sm'
+			o:lDessign  := .f.
+			o:lFluid 	:= .f.
+		
+		
+		HTML o FILE 'view/crumb.html' PARAMS o, 'Define Sql' 
+
+		INIT FORM o 
+
+			PANEL oList ID 'consulta' OF o			
+			
+				DoList( oList )
+				
+			ENDPANEL oList
+			
+			PANEL oDetail ID 'detail' CLASS 'pt-3' HIDE OF o			
+			
+				DoDetail( oDetail )
+				
+			ENDPANEL oDetail									
+				
+		ENDFORM o
+
+	INIT WEB oWeb RETURN
+	
+function DoList( oFld )
+
+	LOCAL aOptions, aEvents, oConsulta, aRows
+	LOCAl oClass
+	
+
+	oConsulta 	:= ConsultaModel():New()
+	aRows 		:= oConsulta:LoadAll()	
+
+	
+	ROW oFld
+	  COL oFld GRID 12	
+	  
+		aOptions := { ;
+			'height' => '300px',	;					
+			'index' => '_recno', 	;		// Default id
+			'selectable' => 1,		;	// Podem posar 1 (sols 1 col)
+			'selectableRollingSelection' => 1;			
+		}
+
+		//	Via API direct
+			aEvents := { { 'name' => 'cellEdited' , 'proc' => 'consulta_upd'} }
+
+		
+		DEFINE BROWSE oBrw ID 'brwconsulta' OPTIONS aOptions EVENTS aEvents ;
+			CLASS 'w-100' TITLE '<h5>Consultation</h5>' OF oFld
+			
+			//	https://tabulator.info/docs/5.4/columns 
+						
+			COL oCol TO oBrw CONFIG { 'formatter' => "rowSelection",  'align' => "center", 'headerSort' => .F., 'hozAlign' => "center" }
+						
+			COL oCol TO oBrw CONFIG { 'title' => 'Consulta'   , 'field' => 'CONSULTA'   , 'editor' => 'input', 'validator' => 'required' }
+			COL oCol TO oBrw CONFIG { 'title' => 'Description', 'field' => 'DESCRIPTIO' , 'editor' => 'input' }
+			COL oCol TO oBrw CONFIG { 'title' => 'Active'	  , 'field' => 'ACTIVE'     , 'hozAlign' => 'center', 'editor' => 'tickCross', 'formatter' => 'tickCross', 'hozAlign' => 'center'}			
+			
+		INIT BROWSE oBrw DATA aRows
+		
+		ROWGROUP oFld 
+			
+			COL oFld GRID 12 							
+			HTML oFld INLINE '<div class="mybar pt-1 pb-1">'
+				COL oFld GRID 12 							
+			
+					HTML oFld INLINE '<div class="btn-group">' 
+						BUTTON LABEL '&nbsp;New'  ICON '<i class="fa fa-plus" aria-hidden="true"></i>'  ACTION 'consulta_new' GRID 0 WIDTH '100px'  CLASS 'btn btn-outline-dark' OF oFld
+						BUTTON LABEL '&nbsp;Del'  ICON '<i class="fa fa-trash" aria-hidden="true"></i>' ACTION 'consulta_del' GRID 0 WIDTH '100px'  CLASS 'btn btn-outline-dark' OF oFld
+					HTML oFld INLINE '</div>'
+
+					BUTTON LABEL 'Detail&nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden="true"></i>'  ;
+						ACTION 'scr_detail' ;
+						CLASS 'btn btn-outline-dark float_right ' WIDTH '100px' GRID 0 OF oFld	
+
+				ENDCOL oFld
+			HTML oFld INLINE '</div>'
+			ENDCOL oFld
+			
+		ENDROW oFld		
+
+	  ENDCOL oFld 
+	ENDROW oFld 
+
+retu nil 
+
+//	------------------------------------------------------ //
+
+function DoDetail( oFld )
+
+	local oAccordion, oSection, oHeader, oBody
+	local oClass, oConn
+	local hClass, hConn
+	local aTypes
+
+		oClass		:= ClassModel():New()
+		oConn 		:= ConnectionModel():New()
+		
+		hClass		:= oClass:GetAllCombo() 
+		hConn 		:= oConn:GetAllCombo() 
+		
+		aTypesTxt	:= { 'IT' => 'Text', 'IL' => 'Logic', 'ID' => 'Date', 'IN' => 'Number'} 
+		aTypes   	:= { 'values' => aTypesTxt }				
+		
+		
+	ROWGROUP oFld CLASS 'mybar pt-1 pb-1'
+	  COL oFld GRID 12
+		HTML oFld INLINE '<div class="btn-group">'
+		  BUTTON ID 'btn0' LABEL '&nbsp;Back' ICON '<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>'  ACTION 'scr_consulta' CLASS 'btn btn-outline-dark' GRID 0 WIDTH '100px' OF oFld
+		  BUTTON           LABEL '&nbsp;Save' ICON '<i class="fa fa-download" aria-hidden="true"></i>'           ACTION 'detail_save'  CLASS 'btn btn-outline-dark' GRID 0 WIDTH '100px' CONFIRM 'Updated ?' OF oFld
+		HTML oFld INLINE '</div>'				
+	  ENDCOL oFld				
+	ENDROW oFld		
+		
+	ROWGROUP oFld
+	  COL oFld GRID 12			
+
+		DEFINE ACCORDION oAccordion  OF oFld
+		
+			ADDSECTION oSection ID HEADER  'head-1' ID BODY 'body-1'  OF ACCORDION oAccordion
+				
+				HEADER oHeader OF SECTION oSection
+				
+					SAY ID 'mysay' LABEL '<i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp;Definition' ;
+						CLASS 'p-0' GRID 12 OF oHeader 																	
+						
+				SECTION ENDHEADER oHeader 
+				
+				BODY oBody SHOW OF SECTION oSection 						
+					
+					ROWGROUP oBody 
+						COL oBody GRID 3
+							GET ID 'c_consulta'    LABEL 'Id.' VALUE ''    READONLY ALIGN 'center' GRID 12 OF oBody
+						ENDCOL oBody
+						
+						COL oBody GRID 6
+							GET ID 'c_descriptio' LABEL 'Description' VALUE '' GRID 12 OF oBody
+						ENDCOL oBody
+						
+						COL oBody GRID 3							
+							CHECKBOX ID 'c_active' LABEL 'Active'  GRID 12 OF oBody
+						ENDCOL oBody
+						
+					ENDROW oBody
+					
+					ROWGROUP oBody
+
+						SELECT ID 'c_id_conn' 	LABEL 'Connection' KEYVALUE hConn  GRID 4 OF oBody
+
+						SELECT ID 'c_id_class' 	LABEL 'Class' 		KEYVALUE hClass GRID 4 OF oBody
+		
+					ENDROW oBody 
+				
+				SECTION ENDBODY oBody
+
+			ENDSECTION oSection 
+			
+			ADDSECTION oSection ID HEADER  'head-2' ID BODY 'body-2'  OF ACCORDION oAccordion
+				
+				HEADER LABEL '<i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;SQL' OF SECTION oSection				
+				
+				BODY oBody OF SECTION oSection
+				
+					ROWGROUP oBody
+						GET MEMO ID 'c_sql' ROWS 3 GRID 12 OF oBody
+					ENDROW oBody 
+					
+					ROWGROUP oBody
+						BUTTON LABEL '&nbsp;Test SQL' ICON '<i class="fa fa-table" aria-hidden="true"></i>' ;
+							CLASS 'btn btn-outline-secondary' ACTION 'detail_test_sql' OF oBody
+					ENDROW oBody 
+					
+				SECTION ENDBODY oBody
+				
+			ENDSECTION oSection 
+			
+			ADDSECTION oSection ID HEADER  'head-3' ID BODY 'body-3'  OF ACCORDION oAccordion
+				
+				HEADER LABEL '<i class="fa fa-desktop" aria-hidden="true"></i>&nbsp;&nbsp;Screen selection'  OF SECTION oSection
+			
+				BODY oBody OF SECTION oSection
+				
+					aOptions := { ;
+						'height' => '150px',	;					
+						'index' => '_recno', 	;	// Default id
+						'selectable' => 1,		;	// Podem posar 1 (sols 1 col)
+						'selectableRollingSelection' => 1;			
+					}
+
+					//	Via API direct
+						aEvents := { { 'name' => 'cellEdited' , 'proc' => 'detail_upd'} }
+
+					
+					DEFINE BROWSE oBrw ID 'brwdetail' OPTIONS aOptions EVENTS aEvents ALL ;
+						CLASS 'w-100' TITLE '<h5>Parameters</h5>' OF oBody
+						
+						//	https://tabulator.info/docs/5.4/columns 
+									
+						COL oCol TO oBrw CONFIG { 'formatter' => "rowSelection",  'align' => "center", 'headerSort' => .F., 'hozAlign' => "center" }
+									
+						COL oCol TO oBrw CONFIG { 'title' => 'Parameter' , 'field' => 'PARAMETER'   , 'editor' => 'input', 'validator' => 'required' }
+						COL oCol TO oBrw CONFIG { 'title' => 'Value Test', 'field' => 'TEST' 		, 'editor' => 'input' }
+						COL oCol TO oBrw CONFIG { 'title' => 'Label'	 , 'field' => 'LABEL' 		, 'editor' => 'input' }
+						COL oCol TO oBrw CONFIG { 'title' => 'Type'	 	 , 'field' => 'TYPE'		, 'editor' => 'list', 'editorParams' => aTypes, 'formatter' => 'lookup', 'formatterParams' => aTypesTxt, 'hozAlign' => 'center'  }						
+						COL oCol TO oBrw CONFIG { 'title' => 'Default' 	 , 'field' => 'DEFAULT' 	, 'editor' => 'input' }
+						COL oCol TO oBrw CONFIG { 'title' => 'Transform (u)' , 'field' => 'TRANSFORM' 	, 'editor' => 'input' }
+				
+					INIT BROWSE oBrw 
+
+					ROWGROUP oBody 
+						
+						HTML oBody INLINE '<div class="mybar pt-1 pb-1">'
+						
+							COL oBody GRID 12 							
+								HTML oBody INLINE '<div class="btn-group">' 
+									BUTTON LABEL '&nbsp;New'  ICON '<i class="fa fa-plus" aria-hidden="true"></i>'  ACTION 'detail_new' GRID 0 WIDTH '100px'  CLASS 'btn btn-outline-dark' OF oBody
+									BUTTON LABEL '&nbsp;Del'  ICON '<i class="fa fa-trash" aria-hidden="true"></i>' ACTION 'detail_del' GRID 0 WIDTH '100px'  CLASS 'btn btn-outline-dark' OF oBody
+								HTML oBody INLINE '</div>'
+
+								BUTTON LABEL '<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;Preview'  ;
+									ACTION 'preview_param' ;
+									CLASS 'btn btn-outline-dark float_right ' WIDTH '100px' GRID 0 OF oBody	
+
+							ENDCOL oBody
+						HTML oBody INLINE '</div>'
+						
+					ENDROW oBody						
+				
+				SECTION ENDBODY oBody
+
+			ENDSECTION oSection 
+			
+		ENDACCORDION oAccordion	
+
+	  ENDCOL oFld 
+	ENDROW oFld 	
+
+retu nil 
+
+?>
+

@@ -1,0 +1,31 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb	
+	
+	DEFINE WEB oWeb TITLE 'UT Websockets' 					
+	
+		Menu( oWeb )
+		
+		HTML oWeb
+			<style>
+				.main {
+					position: absolute;
+					width: 100%;
+					top: 30%;
+					text-align: center;					
+				}
+				
+				.main img { 
+					width: 60%; 
+					max-width: 300px;
+				}
+			</style>		
+		
+			<div class="main">			  
+				<img src="files/images/ut.png"></img>			  
+			</div>		
+		ENDTEXT			
+	
+	INIT WEB oWeb RETURN 
+?>

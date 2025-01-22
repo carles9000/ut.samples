@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>		
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/png" href="files/images/ut.ico"/>
+	<title>Readme</title> 
+ 
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script> 
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">	
+</head>
+<style>
+
+	.mycard {
+		box-shadow: 5px 5px 10px;
+		border: 0px;
+		border-left: 1px solid gray;		
+	}
+	
+	.myheader {
+		border-bottom: 1px solid #79b3ef;
+		background-color: #315478;
+		color: white;
+		border-bottom: 1px solid black;
+	}
+	
+</style>
+<body>	
+
+	<div class='container pt-3'>
+	
+		<h3 onClick="location.href='/'" style="cursor: pointer;" >
+			<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+			&nbsp;App structure
+		</h3><hr>
+		
+		<div class="row mb-3">
+			<div class="col-12">
+				<div class="card mycard">
+					<div class="card-header myheader">
+						<h4><b><i class="fa fa-book" aria-hidden="true"></i>
+						&nbsp;Summary</b></h4>											
+					</div>	
+					<div class="card-body">	
+We start from the <u>basic template</u> for this example. When you create an application with UT you will have this basic structure:
+<br><br>
+<img src="files/images.help/structure.jpg"></img>
+
+<br><br>
+<b><u>App</u></b>
+<br>
+Folder where the prgs of our application will be found. These files will be compiled when we create our application. Each file must be defined within the app.hbp file that is located in the root of our project.
+
+<br><br>
+<b><u>Files</b></u>
+In this folder there are support files for UT that are javascript libraries. We should not touch them or modify them. We can add new javascript libraries for our use
+
+<br><br>
+<b><u>Html</u></b>
+Folder where all the views with extension *.prg or *.html will be found. By default these files behave the same as any html file, and it will not be necessary to compile them every time changes are made.
+
+
+<br><br>
+<b><u>Lib</b></u>
+Folder where the libraries to compile our server will be found. By default there is a version in msvc64 and another in mingw64
+
+<br><br>
+In the main folder of the app there are 2 bats to compile according to the library we want to use and the app.hbp file in which the prgs of the app folder we want to add are defined. 
+Remember to adjust the paths.
+
+<br><br>
+Once the application is compiled and finished we should only use it for distribution:
+
+<br><br>
+<img src="files/images.help/structure_app.jpg"></img>
+				
+<br></br>
+The best way is to try compiling the first basic example of the template and see what each file does.
+<br>
+<br>
+<br>
+Enjoy it!
+					
+					
+					
+					</div>
+				</div>
+			</div>			
+			
+		</div>	
+	
+		
+	</div>
+	
+<body>

@@ -1,0 +1,22 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb	
+	
+	DEFINE WEB oWeb TITLE 'Hello' 			
+		
+		DEFINE FORM o ID 'myform' API 'myapi' OF oWeb							
+
+		INIT FORM o					
+			
+			SAY VALUE '<h1>Welcome to UT<hr>' ALIGN 'center' GRID 12 OF o
+			
+			ROWGROUP o HALIGN 'center'
+				BUTTON ID 'btn'  LABEL 'Hello !'   ALIGN 'center' WIDTH '100px' ACTION 'hello' OF o
+				BUTTON ID 'btn2' LABEL 'Info User' ALIGN 'center' WIDTH '100px' ACTION 'info' OF o
+			ENDROW o			
+			
+		ENDFORM o			
+	
+	INIT WEB oWeb RETURN 
+?>

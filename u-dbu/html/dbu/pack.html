@@ -1,0 +1,50 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb, hCredentials
+	
+	//	Auth system...
+	
+		if ! Authorization( 'A' )
+			retu nil
+		endif
+		
+	//	-------------------------	
+	
+	hCredentials := USession( 'credentials' )
+	
+	DEFINE WEB oWeb TITLE 'U-Dbu' 			
+		
+		HTML oWeb FILE 'dbu/view/menu.html' PARAMS oWeb, 'Pack', hCredentials
+
+		DEFINE FORM o ID 'index' API 'api_pack' OF oWeb 							
+
+		HTML o FILE 'dbu/view/crumb.html' PARAMS o, 'Maintenance' 
+
+		INIT FORM o 
+			
+			ROW o HALIGN 'center' CLASS 'mt-5' 					
+				
+				BUTTON LABEL '&nbsp;Init Pack Tables' ICON '<i class="fa fa-cog" aria-hidden="true"></i>' ;
+					ACTION 'pack' GRID 0 WIDTH '250px'  CLASS 'btn btn-outline-dark' CONFIRM 'Accept Pack?' OF o
+
+ 
+				SMALL o LABEL 'This process will perform a pack of the system tables' GRID 6
+				
+			ENDROW o	
+
+			ROW o HALIGN 'center' CLASS 'mt-5' 					
+				
+				BUTTON LABEL '&nbsp;Other process...' ICON '<i class="fa fa-bell" aria-hidden="true"></i>' ;
+					GRID 0 WIDTH '250px'  CLASS 'btn btn-outline-dark' CONFIRM 'Accept Pack?' OF o
+
+ 
+				SMALL o LABEL 'This process will perform other process' GRID 6
+				
+			ENDROW o				
+
+		ENDFORM o
+
+	INIT WEB oWeb RETURN
+?>
+

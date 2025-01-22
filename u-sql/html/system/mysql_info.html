@@ -1,0 +1,67 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+	LOCAL cCss := 'tabulator_simple.min.css'	//'tabulator_modern.css'
+    LOCAL o, oWeb, oBrw, aOptions, hCredentials, aData, hCfg
+	
+	//	Auth system...
+	
+		if ! Authorization( 'A' )
+			retu nil
+		endif
+		
+	//	-------------------------	
+	
+	hCredentials := USession( 'credentials' )
+	
+	oConn := ConnectionModel():New()
+	hConn := oConn:GetAllCombo()
+	
+	DEFINE WEB oWeb TITLE AppTitle()
+	
+		oWeb:AddCss( 'https://unpkg.com/tabulator-tables@5.4.3/dist/css/' + cCss )
+	
+		HTML oWeb FILE 'view/menu.html' PARAMS oWeb, 'Server_Info', hCredentials
+		
+		DEFINE FORM o ID 'myform' API 'api_mysql_info' ON INIT 'initinfo' OF oWeb 			
+		
+		HTML o FILE 'view/crumb.html' PARAMS o, 'Server Info' 				
+		
+		INIT FORM o 
+
+			ROWGROUP o	HALIGN 'center' CLASS 'pt-1'		
+			 
+				SELECT ID 'server' LABEL 'Server' KEYVALUE hConn GRID 10 ONCHANGE 'info' OF o
+			 
+			ENDROW o		
+			
+			ROWGROUP o VALIGN 'top' HALIGN 'center' CLASS 'pt-2' 					
+				
+				COL o GRID 10
+				
+					//	https://tabulator.info/docs/5.4/options
+				
+					aOptions := { ;
+						'height' => '80%',	;
+						'layout' => 'fitDataStretch';												
+					}															
+					
+					DEFINE BROWSE oBrw ID 'brwinfo' OPTIONS aOptions ;
+						TITLE '<h5><i class="fa fa-server" aria-hidden="true"></i>&nbsp;Server Settings</h5>' OF o 
+						
+						//	https://tabulator.info/docs/5.4/columns 
+						
+						COL oCol TO oBrw CONFIG { 'title' => "Description", 'field' => "Variable_name", 'hozAlign' => "right" }
+						COL oCol TO oBrw CONFIG { 'title' => "Value", 'field' => "Value" }												
+						
+					INIT BROWSE oBrw
+			
+				ENDCOL o				
+				
+			ENDROW o		
+
+		ENDFORM o
+
+	INIT WEB oWeb RETURN
+?>
+

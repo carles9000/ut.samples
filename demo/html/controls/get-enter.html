@@ -1,0 +1,28 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb
+	
+	DEFINE WEB oWeb TITLE 'Get' 
+	
+		HTML oWeb FILE 'tpl\header_examples.tpl' PARAMS 'Controls', 'Input/Get'
+		
+		DEFINE FORM o ID 'myform' API 'api_controls' OF oWeb 			
+		
+		INIT FORM o 
+		
+		  	ROWGROUP o			
+				SAY LABEL 'You can specify clause ENTER/INTRO/RETURN to trigger button action and can use also CONFIRM clause' GRID 12 OF o
+					
+			ENDROW o
+		
+  			ROWGROUP o			
+				GET ID 'name' VALUE 'James Bond' LABEL 'Name' GRID 6 ;
+					BUTTON 'Echo' BTNID 'btn_upd' ACTION 'echo' ENTER CONFIRM 'Send ?' OF o				
+			ENDROW o						
+
+		ENDFORM o
+
+	INIT WEB oWeb RETURN
+?>
+

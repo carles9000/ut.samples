@@ -1,0 +1,13 @@
+.mybar {	
+	margin: auto;	
+	margin-bottom: 10px;					
+	border: 1px solid gray;
+	width:100%;	
+	background-color: #d8d8d8;
+	border-color: darkgray;
+	border-right-color: black;
+	border-bottom-color: black;	
+	box-shadow: 5px 5px 5px gray;					
+}
+
+.float_right { float: right !important; }

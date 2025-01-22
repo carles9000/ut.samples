@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>		
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/png" href="files/images/ut.ico"/>
+	<title>Readme</title> 
+ 
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script> 
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">	
+</head>
+<style>
+
+	.mycodebox {		
+		border: 3px solid #6c0101;
+	}
+	
+	.mycode {
+		line-height: 12px;
+		overflow: hidden;
+		color: #a1ace9;
+		margin-bottom: 0px;	
+	}
+	
+	.mycard {
+		box-shadow: 6px 6px 10px #8e8c8c;
+		border: 0px;
+		border-left: 1px solid gray;		
+	}
+	
+	.myheader {
+		border-bottom: 1px solid #79b3ef;
+		background-color: #315478;
+		color: white;
+		border-bottom: 1px solid black;
+	}
+	
+	.myheadercode {
+		background-color: #979797;
+		border: 1px solid #000000;
+		color: black;
+		/*box-shadow: 5px 5px 5px #a5a5a5;*/
+	}	
+	
+	
+	
+</style>
+<body>	
+
+	<div class='container pt-3'>
+	
+		<h3 onClick="location.href='/'" style="cursor: pointer;" >
+			<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+			&nbsp;Basic concept
+		</h3><hr>
+		
+		<div class="row mb-3">
+			<div class="col-5">
+				<div class="card mycard">
+					<div class="card-header myheader">
+						<h4><b><i class="fa fa-book" aria-hidden="true"></i>
+						&nbsp;Router</b></h4>											
+					</div>	
+					<div class="card-body">	
+<b><u>Creating a route</b></u>. We simply define the name under which we will execute a page. In this case, if we type "runhello" in the browser, it will load and execute the file "hello.html"
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-7">
+				<div class="card mycard">
+					<div class="card-header myheadercode">
+						<h4><b><i class="fa fa-code" aria-hidden="true"></i>
+						&nbsp;Code example</b></h4>											
+					</div>	
+					<div class="card-body mycodebox" style="background-color: black;">	
+						<pre class="mycode"><small>oServer:Route( 'runhello', 'hello.html' ) </small></pre>
+					</div>
+				</div>
+			</div>			
+		</div>	
+		
+		<div class="row mb-3">
+			<div class="col-5">
+				<div class="card mycard">
+					<div class="card-header myheader">
+						<h4><b><i class="fa fa-book" aria-hidden="true"></i>
+						&nbsp;View</b></h4>											
+					</div>	
+					<div class="card-body">	
+<b><u>Creating a view.</u></b> This part is responsible for defining the screen that will be seen in the web browser.
+We can code this view using TWeb or native language
+<br>
+This view can be connected to an API. In this example it connects with our api "myapi"
+<br>
+We can define in the different components of the defined screen actions to be executed by our API. In this example, two actions are defined: "hello" and "Info"
+
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-7">
+				<div class="card mycard">
+					<div class="card-header myheadercode">
+						<h4><b><i class="fa fa-code" aria-hidden="true"></i>
+						&nbsp;Code example: hello.html</b></h4>											
+					</div>	
+					<div class="card-body mycodebox" style="background-color: black;">	
+					<pre class="mycode"><small>&#60;?prg
+#include "lib/tweb/tweb.ch" 
+
+  LOCAL o, oWeb	
+	
+  DEFINE WEB oWeb TITLE 'Hello' 			
+		
+  DEFINE FORM o ID 'myform' API <span style="color:red">'myapi'</span> OF oWeb							
+
+  INIT FORM o					
+			
+    SAY VALUE '&#60;h1>Welcome to UT&#60;hr>' ALIGN 'center' GRID 12 OF o
+			
+    ROWGROUP o HALIGN 'center'
+      BUTTON ID 'btn'  LABEL 'Hello !'   ALIGN 'center' WIDTH '100px' ACTION <span style="color:green">'hello'</span> OF o
+      BUTTON ID 'btn2' LABEL 'Info User' ALIGN 'center' WIDTH '100px' ACTION <span style="color:green">'info'</span> OF o
+    ENDROW o			
+			
+  ENDFORM o			
+	
+  INIT WEB oWeb RETURN 	
+?&#62;				</small></pre>
+					</div>
+				</div>
+			</div>			
+		</div>		
+				
+		<div class="row mb-3">
+			<div class="col-5">
+				<div class="card mycard">
+					<div class="card-header myheader">
+						<h4><b><i class="fa fa-book" aria-hidden="true"></i>
+						&nbsp;Api</b></h4>											
+					</div>	
+					<div class="card-body">	
+<b><u>Creating a Api.</b></u> Our API will be on our server, handling requests made from the web browser. We simply program the messages (commands) that we will receive from the web browser and that we have defined in the view.
+<br>
+We will process the commands as functions that will execute the action and respond back to the web browser.
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-7">
+				<div class="card mycard">
+					<div class="card-header myheadercode">
+						<h4><b><i class="fa fa-code" aria-hidden="true"></i>
+						&nbsp;Code example: myapi.prg</b></h4>											
+					</div>	
+					<div class="card-body mycodebox" style="background-color: black;">	
+					<pre class="mycode"><small>function <span style="color:red">MyApi</span>( oDom )
+	
+  do case
+    case oDom:GetProc() == <span style="color:green">'hello'</span> ; DoHello( oDom )		
+    case oDom:GetProc() == <span style="color:green">'info'</span>  ; DoInfo( oDom )		
+  endcase
+
+retu oDom:Send() 
+
+// --------------------------------------------------------- //
+
+static function DoHello( oDom )
+
+  oDom:SetMsg( 'Hello from server Harbour at ' + time() )	
+
+return nil 
+
+// --------------------------------------------------------- //
+
+static function DoInfo( oDom )
+	
+  USE 'data/test.dbf' SHARED NEW
+	
+  oDom:SetMsg( FIELD->first + ' ' + FIELD->last, 'User Information' )
+	
+  DbCloseAll()
+
+return nil</small></pre>
+					</div>					
+				</div>
+			</div>			
+		</div>		
+		
+		<div class="row mb-5">
+			<button type="button" class="btn btn-outline-dark" style="width:100%" onclick="location.href='runhello';">Run example...</button>	
+		</div>
+
+		
+		
+	</div>
+	
+<body>

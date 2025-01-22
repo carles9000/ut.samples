@@ -1,0 +1,27 @@
+-n
+-w1
+-es2
+-inc
+-head=full
+-mt
+-workdir=.hbmk/${hb_compiler}
+-hbexe
+
+
+app\app.prg
+app\myapi.prg
+app\print\tpdf.prg
+
+-Llib\uhttpd2\mingw64
+-luhttpd2
+
+-Llib\tweb\mingw64
+-ltweb
+
+
+# WAPI_OutputDebugString()
+-lhbwin
+-lhbct
+-lxhb
+
+hbhpdf.hbc

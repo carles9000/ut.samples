@@ -1,0 +1,8 @@
+#Ignore tots els dirs .hbmk, .sessions
+**/.hbmk/*
+**/.sessions/*
+**/.tmp/*
+**/lib/*
+**/.log/*
+**/z/*
+*.exe

@@ -1,0 +1,61 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+
+    LOCAL o, oWeb 
+	LOCAL cSideBar	:= ''
+	
+	DEFINE WEB oWeb TITLE 'Menu'
+	
+		HTML oWeb 
+		
+			<style>
+				.myitem {
+					margin-top: 10px;
+					margin-bottom: 20px;
+					border: 2px solid #919191;
+					border-radius: 5px;
+					padding: 5px;
+					box-shadow: 2px 2px 2px black;			
+				}
+				
+				.myitem_text {
+					word-wrap: break-word;
+					font-style: italic;
+					color: cadetblue;
+				}
+			</style>
+		
+		ENDTEXT 
+	
+		NAV oNav ID 'nav' TITLE '&nbsp;Menus' LOGO 'files/images/mercury_mini.png' ;
+			ROUTE 'menu' WIDTH 30 HEIGHT 30  OF oWeb	
+			
+			HTML MENUITEM OF oNav
+				<div class="myitem">
+					<img src="files/images/mercury_mini.png" width="20" height="20">					
+					<span style="vertical-align: middle;" >Options</span>			
+					<div class="myitem_text">
+						This div contains a very long word: this is very longword. The long word will break and wrap to the next line.
+					</div>
+					<br>
+					<i class="fas fa-cog fa-spin"></i>
+					<span>Enjoy it...</span>
+				</div>				
+			ENDTEXT
+
+			MENUITEM SEPARATOR OF oNav
+			MENUITEM 'List' ICON '<i class="fa fa-list" aria-hidden="true"></i>' ROUTE 'brw' 	OF oNav 
+			MENUITEM SEPARATOR OF oNav
+				
+					
+			
+		DEFINE FORM o OF oWeb	
+		INIT FORM o
+		
+			HTML o INLINE '<h3>Menu Sidebar (advance)</h3><hr>'
+			
+		ENDFORM o 				
+		
+	INIT WEB oWeb RETURN 
+?>

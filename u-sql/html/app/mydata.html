@@ -1,0 +1,286 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+	LOCAL cCss 	:= 'tabulator_simple.min.css'	//'tabulator_modern.css'
+    LOCAL o, oWeb, oBrw, oTree, hCredentials	
+
+	//	Auth system...
+	
+		if ! Authorization()
+			retu nil
+		endif
+		
+	//	-------------------------
+	
+	hCredentials := USession( 'credentials' )
+	
+	DEFINE WEB oWeb TITLE AppTitle()				
+	
+		oWeb:AddCss( 'https://unpkg.com/tabulator-tables@5.4.3/dist/css/' + cCss )
+
+		oWeb:AddJs( 'files/jstree/jstree.min.js' )
+		oWeb:AddCss( 'files/jstree/themes/default/style.min.css' )
+
+		oWeb:AddCss( 'files/css/app.css' )		
+		
+		HTML oWeb
+		
+			<style>
+
+				.test_say .tweb_say {
+					padding-top:2px;
+					padding-left: 0px;
+				}
+			</style>
+		
+		ENDTEXT 		
+		
+		HTML oWeb FILE 'view/menu.html' PARAMS oWeb, 'Access Data', hCredentials
+			
+		
+		DEFINE FORM o ID 'myform' API 'api_data' OF oWeb 			
+			o:cSizing   := 'sm'
+			o:lDessign  := .f.
+			o:lFluid 	:= .f.
+		
+		
+		HTML o FILE 'view/crumb.html' PARAMS o, 'Access Data' 
+
+		INIT FORM o 					
+
+			ROWGROUP o //HALIGN 'center' //CLASS 'pt-2' 			  
+			
+				PANEL oTree ID 'tree' CLASS 'w-100' OF o 
+				
+					DoTree( oTree )
+				
+				ENDPANEL oTree
+				
+				PANEL oTree ID 'data' CLASS 'w-100' HIDE OF o 
+				
+					DoData( oTree )
+				
+				ENDPANEL oTree												
+			  
+			ENDROW o			
+
+		ENDFORM o
+
+	INIT WEB oWeb RETURN
+	
+function DoTree( oFld )
+
+	LOCAL aOptions, aEvents, oConsulta, aRows
+	LOCAl oClass, n
+	LOCAL aItems := {}
+	LOCAL aClass := {}
+
+	oConsulta 	:= ConsultaModel():New()
+	aRows 		:= oConsulta:LoadAll()	
+	
+	oClass 		:= ClassModel():New()	
+	aItems		:= oClass:MakeItemsTree()
+
+	cItems 		:= hb_jsonencode( aItems )
+
+	ROW oFld //ID 'brwbar' CLASS "up-3" //HIDDEN
+	  COL oFld GRID 12
+		HTML oFld INLINE '<div class="mybar pt-1 pb-1">'
+			COL oFld GRID 12 							
+				HTML oFld INLINE '<div class="btn-group">' 	
+				
+					BUTTON LABEL '&nbsp;Execute' ICON '<i class="fa fa-cogs" aria-hidden="true"></i>' ;
+					ACTION 'Exe_Consulta()' ;
+					CLASS 'btn btn-outline-dark' WIDTH '100px' GRID 0 OF oFld										
+					
+				HTML oFld INLINE '</div>'						
+				
+					BUTTON LABEL '&nbsp;Refresh' ICON '<i class="fa fa-retweet" aria-hidden="true"></i>' ;
+					ACTION 'exe_refresh' ;
+					CLASS 'btn btn-outline-dark float_right' WIDTH '100px' GRID 0 OF oFld						
+			
+			ENDCOL oFld
+		HTML oFld INLINE '</div>'		
+	  ENDCOL oFld				
+	ENDROW oFld 
+
+	
+	ROW oFld CLASS 'pt-2'
+	  COL oFld GRID 12	
+				
+		PANEL oDiv ID 'mytree' CLASS 'tree' OF oFld					
+		
+		HTML oFld PARAMS cItems										
+			
+			<script>
+
+				var oTree
+				
+				function Exe_Consulta() {									
+					
+					oNode = $('#myform-mytree').jstree("get_selected")										
+
+					if ( oNode.length == 0 ){
+						MsgInfo( 'Select node' )
+						return null 
+					}
+					
+					oNode = $('#myform-mytree').jstree("get_selected", oNode[0] )					
+
+					var cId =  oNode[0].data 
+					
+					if ( ! cId ) {
+						MsgInfo( 'Select consultation' )
+						return null 
+					}
+					
+					var oPar = new Object()
+						oPar[ 'id_consulta' ] = cId
+
+					MsgApi( 'api_data', 'exe_preview', oPar )																										
+				
+				}
+				
+				function Tree_Refresh( uData ) {
+
+					oTree = $('#myform-mytree').jstree(true);
+					
+					oTree.settings.core.data = [];					
+					oTree.refresh();					
+					
+					oTree.settings.core.data = uData;					
+					oTree.refresh();					
+				}
+
+				$(document).ready(function(){	
+
+					aData =  <$ cItems $>				
+				
+					oTree = $('#myform-mytree').jstree({ 'core' : {
+						'strings' : { 'Loading ...' : 'Cargando...' },
+						'data' : aData 
+					} });
+					
+					/*
+					oTree = $('#myform-mytree').jstree({ 'core' : { 
+							'strings' : { 'Loading ...' : 'Cargando...' },
+							'data' : []	
+						}
+					});								
+
+					oTree.on( "dblclick.jstree", function (e, data) {
+					
+						var oThisTree 	= $('#myform-mytree').jstree(true);
+						var oNode		=  oThisTree.get_node( e.target )
+
+						console.log( oNode )
+						
+						if ( (oNode.data) && ( oNode.data.length > 0 ) ){
+							console.log( 'dins')
+							var par = { LAST: 'Charles', TEST: 1234 }
+
+							URedirect( 'dummy', par )
+						}									
+
+					})	
+					*/					
+				})
+				
+			</script>
+			
+		ENDTEXT 
+
+		ENDPANEL oFld										
+	
+	  ENDCOL oFld 
+	ENDROW oFld 
+
+retu nil 
+
+
+//	------------------------------------------------------ //
+
+function DoData( oFld )
+
+	local oBrw
+	
+	ROWGROUP oFld //ID 'brwbar' CLASS "up-3" //HIDDEN
+	  COL oFld GRID 12
+		HTML oFld INLINE '<div class="mybar pt-1 pb-1">'
+			COL oFld GRID 12 							
+				HTML oFld INLINE '<div class="btn-group">' 									
+					BUTTON LABEL '&nbsp;Back'  ICON '<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>' ACTION 'back_tree' GRID 0 WIDTH '100px' CLASS 'btn btn-outline-dark'  OF oFld
+					
+					BUTTON LABEL '&nbsp;Re-Execute' ICON '<i class="fa fa-cogs" aria-hidden="true"></i>' ;
+					ACTION 'Exe_Consulta()' ;
+					CLASS 'btn btn-outline-dark' WIDTH '120px' GRID 0 OF oFld	
+					
+					//BUTTON LABEL '&nbsp;Del'  ICON '<i class="fa fa-trash" aria-hidden="true"></i>' ACTION 'del' GRID 0 WIDTH '100px' CLASS 'btn btn-outline-dark'  OF oFld																						
+				HTML oFld INLINE '</div>'						
+			
+				BUTTON LABEL '&nbsp;Print' ICON '<i class="fa fa-print" aria-hidden="true"></i>' ;
+					ACTION 'nav_print' ;
+					CLASS 'btn btn-outline-dark float_right ' WIDTH '100px' GRID 0 OF oFld				
+					
+			ENDCOL oFld
+		HTML oFld INLINE '</div>'
+		
+	  ENDCOL oFld				
+	ENDROW oFld 
+		
+	ROWGROUP oFld
+	  COL oFld GRID 12	
+	
+		aOptions := { ;
+			'height' => '150px',	;					
+			'index' => '_recno', 	;		// Default id
+			'selectable' => 1,		;	// Podem posar 1 (sols 1 col)
+			'selectableRollingSelection' => 1;			
+		}
+
+		//	Via API direct
+			aEvents := { { 'name' => 'cellEdited' , 'proc' => 'detail_upd'} }
+
+		
+		DEFINE BROWSE oBrw ID 'brwdata' OPTIONS aOptions EVENTS aEvents ;
+			CLASS 'w-100' TITLE '<h5>Parameters</h5>' OF oFld
+
+		INIT BROWSE oBrw //DATA aRows	
+		
+		
+
+		ROWGROUP oFld ID 'barnav' VALIGN 'center' CLASS "pl-3 pr-3" //HIDDEN
+
+			HTML oFld INLINE '<div class="mybar pt-1 pb-1">'
+				COL oFld GRID 12 
+				
+					GET ID 'nav_sql' VALUE '' HIDDEN OF oFld
+					GET ID 'nav_total' VALUE '' HIDDEN OF oFld
+					GET ID 'nav_conn' VALUE '' HIDDEN OF oFld
+					GET ID 'nav_page_total' VALUE '' HIDDEN OF oFld
+					
+					HTML oFld INLINE '<div class="btn-group test_say">' 	
+						SAY LABEL 'Rows' GRID 'auto' OF oFld
+						SELECT ID 'nav_page_rows' PROMPT  '10', '50', '100' GRID 'auto' ONCHANGE 'nav_refresh' OF oFld					
+					HTML oFld INLINE '</div>'
+					
+					HTML oFld INLINE '<div class="btn-group" style="float:right;">' 															
+						BUTTON ID 'btn_top'  ACTION 'nav_top' GRID 0 WIDTH '30px' CLASS 'btn btn-outline-dark'  ICON '<i class="fa fa-step-backward" aria-hidden="true"></i>' OF oFld
+						BUTTON ID 'btn_prev' ACTION 'nav_prev' GRID 0 WIDTH '30px' CLASS 'btn btn-outline-dark'  ICON '<i class="fa fa-backward" aria-hidden="true"></i>' OF oFld
+						GET ID 'nav_page' VALUE '' GRID 0 STYLE 'width:60px;' ALIGN 'center' ONCHANGE 'nav_refresh' OF oFld
+						BUTTON ID 'btn_next' ACTION 'nav_next' GRID 0 WIDTH '30px' CLASS 'btn btn-outline-dark' ICON '<i class="fa fa-forward" aria-hidden="true"></i>' OF oFld
+						BUTTON ID 'btn_end'  ACTION 'nav_end' GRID 0 WIDTH '30px' CLASS 'btn btn-outline-dark' ICON '<i class="fa fa-fast-forward" aria-hidden="true"></i>'  OF oFld
+					HTML oFld INLINE '</div>'
+					
+				ENDCOL oFld
+			HTML oFld INLINE '</div>'
+			
+		ENDROW oFld 									
+		
+	  ENDCOL oFld 
+	ENDROW oFld 	
+
+retu nil 
+
+?>
+

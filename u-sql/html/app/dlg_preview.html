@@ -1,0 +1,53 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+  local cHtmlTable 		:= pValue(1)
+  local lExecute		:= pValue(2)
+  local cId_Consulta	:= pValue(3)
+  local cId_Form		:= pValue(4)   
+  LOCAL o, oDlg, oRadio    
+
+	DEFINE DIALOG oDlg
+		
+		DEFINE FORM o ID cId_Form API 'api_data' OF oDlg
+			o:lDessign := .f.
+			//o:cSizing   := 'sm'       //  SM/LG
+			
+			HTML o 
+				<style>
+					.parameters {
+						padding: 5px;
+						text-align: right;
+					}
+				
+				</style>			
+			ENDTEXT 
+		
+		INIT FORM o 
+
+			ROWGROUP o								
+				GET ID 'id_consulta' VALUE cId_Consulta READONLY HIDDEN GRID 12 OF o
+			ENDROW o
+
+			ROWGROUP o								
+				
+				HTML o INLINE cHtmlTable
+				
+			ENDROW o								
+
+			if lExecute
+			
+				HTML o INLINE '<hr>'
+				
+				ROWGROUP o HALIGN 'center'	
+				   BUTTON LABEL 'Execute' 	ACTION 'exe_consulta'  ALIGN 'center' 	GRID 6  WIDTH '100px' CLASS 'btn btn-outline-success' 	OF o
+				ENDROW o	
+				
+			endif			
+			
+
+		ENDFORM o
+ 
+	INIT DIALOG oDlg RETURN
+	
+?>

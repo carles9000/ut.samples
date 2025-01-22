@@ -1,0 +1,22 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb
+	
+	DEFINE WEB oWeb TITLE 'Curl' 
+	
+		HTML oWeb FILE 'tpl\header_examples.tpl' PARAMS 'Curl', 'Download'
+		
+		DEFINE FORM o ID 'myform' API 'api_curl' OF oWeb 
+		
+		INIT FORM o 				
+			
+			ROWGROUP o			
+				BUTTON LABEL 'Download'  ACTION 'download' WIDTH '200px' ALIGN 'center' GRID 12 OF o	
+			ENDROW o
+
+		ENDFORM o	
+
+	INIT WEB oWeb RETURN
+?>
+

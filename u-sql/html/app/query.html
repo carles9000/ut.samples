@@ -1,0 +1,130 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+	LOCAL cCss := 'tabulator_simple.min.css'	//'tabulator_modern.css'
+    LOCAL o, oWeb, oBrw, aOptions, hCredentials, aData, hCfg
+	
+	//	Auth system...
+	
+		if ! Authorization( 'A' )
+			retu nil
+		endif
+		
+	//	-------------------------
+	
+	hCredentials := USession( 'credentials' )
+	
+	oConn := ConnectionModel():New()
+	hConn := oConn:GetAllCombo()
+	
+
+	DEFINE WEB oWeb TITLE AppTitle()
+	
+		oWeb:AddCss( 'https://unpkg.com/tabulator-tables@5.4.3/dist/css/' + cCss )
+		oWeb:AddCss( 'files/css/app.css' )
+		
+		HTML oWeb
+		
+			<style>
+				
+				.test_say .tweb_say {
+					padding-top:3px;
+					padding-left: 0px;
+				}
+				
+				.btn_nav {
+					width: 30px;	
+					margin: 0;
+					padding: 0;				
+				}
+				
+			</style>
+		
+		ENDTEXT 						
+	
+		HTML oWeb FILE 'view/menu.html' PARAMS oWeb, 'Query', hCredentials
+		
+		DEFINE FORM o ID 'myform' API 'api_query' OF oWeb 			
+		
+		HTML o FILE 'view/crumb.html' PARAMS o, 'Query' 
+
+		INIT FORM o 				
+		
+			ROW o CLASS 'pt-3 pb-2' //ID 'brwbar' CLASS "up-3" //HIDDEN
+			  COL o GRID 12
+				HTML o INLINE '<div class="mybar pt-1 pb-1">'
+					COL o GRID 12 							
+						HTML o INLINE '<div class="btn-group">' 	
+							BUTTON LABEL '&nbsp;Print' ICON '<i class="fa fa-print" aria-hidden="true"></i>' ;
+								ACTION 'nav_print' ;
+								CLASS 'btn btn-outline-dark float_right ' WIDTH '100px' GRID 0 OF o
+						HTML o INLINE '</div>'						
+					ENDCOL o
+				HTML o INLINE '</div>'				
+			  ENDCOL o				
+			ENDROW o 		
+
+			ROWGROUP o	HALIGN 'center' CLASS 'pt-1'		
+				SELECT ID 'nav_server' LABEL 'Server' KEYVALUE hConn GRID 12 ONCHANGE 'sel_server' OF o
+			ENDROW o
+			
+			ROWGROUP o HALIGN 'center' CLASS 'pt-1'				
+				
+				GET ID 'nav_sql' VALUE '' PLACEHOLDER 'SELECT * ... ' LABEL 'Sql' ;
+					BUTTON 'Execute', 'Clear' ACTION 'execute', 'clean' GRID 12 OF o
+				
+			ENDROW o 			
+						
+			ROWGROUP o VALIGN 'top' HALIGN 'center' CLASS 'pt-2' 					
+				
+				COL o GRID 12
+				
+					//	https://tabulator.info/docs/5.4/options
+				
+					aOptions := { ;
+						'height' => '80%',	;
+						'layout' => 'fitDataStretch';												
+					}															
+					
+					DEFINE BROWSE oBrw ID 'brw' OPTIONS aOptions ;
+						TITLE '<h5><i class="fa fa-server" aria-hidden="true"></i>&nbsp;Query</h5>' OF o 
+
+					INIT BROWSE oBrw 
+			
+				ENDCOL o				
+				
+			ENDROW o	
+
+
+			ROWGROUP o ID 'barnav' VALIGN 'center' HALIGN 'center' //CLASS "pl-3 pr-3" //HIDDEN
+				COL o GRID 12
+					HTML o INLINE '<div class="mybar pt-1 pb-1">'
+						COL o GRID 12				
+							
+							GET ID 'nav_total' VALUE '' HIDDEN OF o
+							GET ID 'nav_conn' VALUE '' HIDDEN OF o
+							GET ID 'nav_page_total' VALUE '' HIDDEN OF o
+							
+							HTML o INLINE '<div class="btn-group test_say">' 	
+								SAY LABEL 'Rows' GRID 'auto' OF o
+								SELECT ID 'nav_page_rows' PROMPT  '10', '50', '100' GRID 'auto' ONCHANGE 'nav_refresh' OF o					
+							HTML o INLINE '</div>'
+							
+							HTML o INLINE '<div class="btn-group" style="float:right;">' 															
+								BUTTON ID 'btn_top'  ACTION 'nav_top' GRID 0  CLASS 'btn btn-outline-dark btn_nav'  ICON '<i class="fa fa-step-backward" aria-hidden="true"></i>' OF o
+								BUTTON ID 'btn_prev' ACTION 'nav_prev' GRID 0  CLASS 'btn btn-outline-dark btn_nav'  ICON '<i class="fa fa-backward" aria-hidden="true"></i>' OF o
+								GET ID 'nav_page' VALUE '' GRID 0 STYLE 'width:60px;' ALIGN 'center' ONCHANGE 'nav_refresh' OF o
+								BUTTON ID 'btn_next' ACTION 'nav_next' GRID 0  CLASS 'btn btn-outline-dark btn_nav' ICON '<i class="fa fa-forward" aria-hidden="true"></i>' OF o
+								BUTTON ID 'btn_end'  ACTION 'nav_end' GRID 0  CLASS 'btn btn-outline-dark btn_nav' ICON '<i class="fa fa-fast-forward" aria-hidden="true"></i>'  OF o
+							HTML o INLINE '</div>'
+							
+						ENDCOL o
+					HTML o INLINE '</div>'
+				ENDCOL o				
+			ENDROW o 							
+	
+		ENDFORM o
+
+	INIT WEB oWeb RETURN
+?>
+

@@ -1,0 +1,97 @@
+<?prg 
+
+	local oNav
+	LOCAL oWeb			:= pvalue(1)	
+	LOCAL cItem			:= lower(pvalue(2))
+	LOCAL hCredentials 	:= pValue(3)	
+
+	//	Auth system...
+	
+		if ! Authorization()
+			retu nil
+		endif
+		
+	//	-------------------------	
+	
+	if valtype( hCredentials ) != 'H'
+		hCredentials := {=>}
+		hCredentials[ 'name' ] := ''
+		hCredentials[ 'user' ] := ''
+		hCredentials[ 'profile' ] := ''
+	endif	
+
+	NAV oNav ID 'nav' TITLE '&nbsp;{{ AppTitle() + ' ' + AppVersion() }}' LOGO 'files/images/mercury_mini.png' ;
+		ROUTE 'splash'  WIDTH 30 HEIGHT 30 BURGUERLEFT SIDEBAR OF oWeb
+		
+		MENU GROUP 'Aplication' OF oNav		
+
+			MENUITEM '&nbsp;Data' ICON '<i class="fa fa-table" aria-hidden="true"></i>' ROUTE 'mydata' ACTIVE ( cItem == 'mydata' ) OF oNav				
+			
+			if hCredentials[ 'profile' ] == 'A'
+			
+				MENUITEM '&nbsp;Query' ICON '<i class="fa fa-cube" aria-hidden="true"></i>' ROUTE 'query' ACTIVE ( cItem == 'query' ) OF oNav
+				MENUITEM '&nbsp;Define Sql' ICON '<i class="fa fa-cog" aria-hidden="true"></i>' ROUTE 'def_sql' ACTIVE ( cItem == 'def_sql' ) OF oNav
+				
+			endif	
+			
+		ENDMENU OF oNav
+			
+			
+			
+			if hCredentials[ 'profile' ] == 'A'
+				
+				MENU GROUP 'System' OF oNav												
+					MENUITEM '&nbsp;Server Info' ICON '<i class="fa fa-server" aria-hidden="true"></i>' ROUTE 'server_info' ACTIVE ( cItem == 'server_info' ) OF oNav
+					MENUITEM '&nbsp;Mysql Info' ICON '<i class="fa fa-server" aria-hidden="true"></i>' ROUTE 'mysql_info' ACTIVE ( cItem == 'mysql_info' ) OF oNav
+				ENDMENU OF oNav 
+				
+				MENU GROUP 'Config' OF oNav
+					MENUITEM 'Users'       ICON '<i class="fa fa-user" aria-hidden="true"></i>' ROUTE 'users'       ACTIVE ( cItem == 'users' ) OF oNav				
+					MENUITEM 'Class'       ICON '<i class="fa fa-paw" aria-hidden="true"></i>' ROUTE 'class'       ACTIVE ( cItem == 'class' ) OF oNav				
+					MENUITEM 'Connections' ICON '<i class="fa fa-plug" aria-hidden="true"></i>' ROUTE 'connections' ACTIVE ( cItem == 'connections' ) OF oNav				
+				ENDMENU OF oNav 
+					
+			endif
+
+		
+		MENUITEM SEPARATOR OF oNav
+		MENUITEM 'About' ICON '<i class="fa fa-address-card" aria-hidden="true"></i>' ROUTE 'about' ACTIVE ( cItem == 'about' ) OF oNav 
+		MENUITEM 'Logout' ICON '<i class="fa fa-power-off" aria-hidden="true"></i>' ROUTE 'logout' CONFIRM 'Exit App?' OF oNav 
+
+		
+		//	Con un poco nativo, puedes combinar los 2 metodos
+		//  With a little native, you can combine the 2 methods
+		
+			HTML SIDEBAR OF oNav PARAMS hCredentials 	
+
+				<style>
+				
+					.profile {
+						margin-left: auto;
+						margin-right: auto;
+						text-align: center;						
+						padding-top: 10px;
+						padding-bottom: 10px;						
+						border-bottom: 1px solid #efefef;				
+					}
+					
+					.profile .name {
+						font-size: 18px;
+						margin-bottom: 0;					
+					}
+					
+					.profile .user {
+						font-size: 14px;
+						color: #cfcfcf;
+					}
+
+				</style>
+				
+				<div class="profile">
+					<h3 class="name"><$ hCredentials[ 'name' ] $></h3>
+					<span class="user"><$ hCredentials[ 'user' ] $></span>
+				</div>		
+			ENDTEXT			
+	
+	RETU ''
+?>
