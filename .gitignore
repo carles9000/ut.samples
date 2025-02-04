@@ -2,7 +2,6 @@
 **/.hbmk/*
 **/.sessions/*
 **/.tmp/*
-**/lib/*
 **/.log/*
 **/z/*
 *.exe
