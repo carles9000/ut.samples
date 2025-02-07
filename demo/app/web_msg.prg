@@ -24,7 +24,11 @@ function Ping_DataRecno()
 	local nRecno 	:= Val( cRecno )	
 	local cInfo 	:= ''
 	
+#ifdef __PLATFORM__WINDOWS
 	USE ( 'data\test.dbf' ) SHARED NEW VIA 'DBFCDX'		
+#else 
+	USE ( 'data/test.dbf' ) SHARED NEW VIA 'DBFCDX'
+#endif
 
 	GOTO nRecno
 	

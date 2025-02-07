@@ -380,8 +380,23 @@ retu nil
 
 //----------------------------------------------------------------------------//
 
-function AppPathData() 		; retu HB_DIRBASE() + 'data\'
-function AppPathRepository() 	; retu HB_DIRBASE() + 'data.repository\'
+function AppPathData() 		
+
+#ifdef __PLATFORM__WINDOWS
+    retu HB_DIRBASE() + 'data\'
+#else
+    retu HB_DIRBASE() + 'data/'
+#endif 
+
+retu nil 
+
+function AppPathRepository() 
+
+#ifdef __PLATFORM_WINDOWS
+    retu HB_DIRBASE() + 'data.repository\'
+#else 
+    retu HB_DIRBASE() + 'data.repository/'
+#endif
 
 //----------------------------------------------------------------------------//
 
@@ -396,7 +411,10 @@ static function OpenUrl( hInfo )
 	if hInfo[ 'port' ] != 80 
 		cUrl += ':' + ltrim(str( hInfo[ 'port' ] ))
 	endif				
-	
-	WAPI_ShellExecute( nil, "open", cUrl, nil, nil, SW_SHOW )		
+#ifdef 	__PLATFORM__WINDOWS
+//	WAPI_ShellExecute( nil, "open", cUrl, nil, nil, SW_SHOW )		
+#else
+	? 'Pending...'
+#endif
 
 retu nil 

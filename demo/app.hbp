@@ -1,3 +1,4 @@
+-oapp.gbin{gcc}
 -n
 -w1
 -es2
@@ -36,11 +37,12 @@ app\web_concept.prg
 app\web_tools.prg
 app\myapi.prg
 
-
+{gcc}-Llib\uhttpd2\gcc
 {msvc64}-Llib\uhttpd2\msvc64
 {mingw64}-Llib\uhttpd2\mingw64
 -luhttpd2
 
+{gcc}-Llib\tweb\gcc
 {msvc64}-Llib\tweb\msvc64
 {mingw64}-Llib\tweb\mingw64
 -ltweb
@@ -50,6 +52,6 @@ app\myapi.prg
 #hbwin.hbc
 #xhb.hbc
 
--lhbwin
+#{win}-lhbwin
 -lxhb
 -lhbct
