@@ -1,3 +1,4 @@
+-oapp.gbin{gcc}
 -n
 -w1
 -es2
@@ -21,7 +22,7 @@ app\func.prg
 
 
 # WAPI_OutputDebugString()
--lhbwin
+{win}-lhbwin
 -lxhb
 -lhbct
 
