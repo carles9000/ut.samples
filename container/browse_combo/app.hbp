@@ -11,10 +11,12 @@
 app\app.prg
 app\myapi.prg
 
+{gcc}-Llib\uhttpd2\gcc
 {msvc64}-Llib\uhttpd2\msvc64
 {mingw64}-Llib\uhttpd2\mingw64
 -luhttpd2
 
+{gcc}-Llib\tweb\gcc
 {msvc64}-Llib\tweb\msvc64
 {mingw64}-Llib\tweb\mingw64
 -ltweb

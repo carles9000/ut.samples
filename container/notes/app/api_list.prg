@@ -6,8 +6,12 @@ function DoList()
 	LOCAL aRows := {}
 	
 	//	Recover data...
-	
+
+#ifdef __PLATFORM__WINDOWS	
 	use ( 'data\notes.dbf' ) shared new via 'DBFCDX'
+#else
+	use ( 'data/notes.dbf' ) shared new via 'DBFCDX'
+#endif
 	
 	DbGoTop()
 	

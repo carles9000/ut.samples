@@ -40,7 +40,25 @@ RETURN 0
 
 //----------------------------------------------------------------------------//
 
-function AppPathData() ; retu hb_dirbase() + 'data\'		//	Absolute path
-function AppPathImages() ; retu 'data\images\'				//	Relative path
+function AppPathData() 		// Abosolute path
 
-//----------------------------------------------------------------------------//
+#ifdef __PLATFORM__WINDOWS
+    retu HB_DIRBASE() + 'data\'
+#else
+    retu HB_DIRBASE() + 'data/'
+#endif 
+
+retu nil
+ 
+
+function AppPathImages() 	// Relative Path
+
+#ifdef __PLATFORM__WINDOWS
+    retu 'data\images\'
+#else
+    retu 'data/images/'
+#endif 
+
+retu nil 
+
+//---------------------------------------------------------------------------//

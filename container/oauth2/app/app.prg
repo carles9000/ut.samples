@@ -18,7 +18,7 @@ function WebServer()
 
 	local oServer 	:= Httpd2()
 	
-	oServer:SetPort( 80 )
+	oServer:SetPort( 81 )
 	oServer:SetDirFiles( 'data' )
 	
 	//	Routing...			

@@ -50,7 +50,11 @@ _d( oDom:GetAll() )
 		retu nil
 	endif		
 	
+#ifdef __PLATFORM__WINDOWS
 	use ( 'data\notes.dbf' ) shared new via 'DBFCDX'
+#else 
+	use ( 'data/notes.dbf' ) shared new via 'DBFCDX'
+#endif
 	
 	dbappend()
 	
