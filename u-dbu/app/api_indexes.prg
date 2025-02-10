@@ -1,4 +1,4 @@
-#include 'lib\uhttpd2\uhttpd2.ch'
+#include 'lib/uhttpd2/uhttpd2.ch'
 #include 'dbinfo.ch' 
 
 function Api_Indexes( oDom )
@@ -54,7 +54,7 @@ static function AddTag( oDom )
 	
 	//	Initialiting variables
 	
-		cFileDbf 	:= cPath + '\' + cFile
+		cFileDbf 	:= cPath + hb_ps() + cFile
 		
 		cAlias 	:= NewAlias()
 			
@@ -209,7 +209,7 @@ static function Info( oDom )
 	local cFile    := oDom:Get( 'file' )
 	local hCfg 		:= { 'size' => '300px' }
 	local aInfo 	:= {}		
-	local cFileDbf	:= cPath + '\' + cFile 
+	local cFileDbf	:= cPath + hb_ps() + cFile 
 	local cError 	:= ''
 	local cHtml, cInfoTable
 	
@@ -260,7 +260,7 @@ static function Create_Cdx( oDom )
 	
 	//	Initialiting variables
 	
-		cFileDbf 		:= cPath + '\' + cFile
+		cFileDbf 		:= cPath + hb_ps() + cFile
 		cFileIndex 	:= hb_FNameDir( cFileDbf ) + hb_FNameName( cFileDbf ) + '.cdx'
 		cFileBkpIndex 	:= hb_FNameDir( cFileDbf ) + hb_FNameName( cFileDbf ) + '.cdx.bkp'
 		cFileNewIndex 	:= hb_FNameDir( cFileDbf ) + 'DBU' + hb_FNameName( cFileDbf ) + '.cdx'

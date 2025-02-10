@@ -144,7 +144,7 @@ retu hCfg
 // -------------------------------------------------- //
 
 function AppVersion() 		; retu APP_VERSION
-function AppPathData()		; retu HB_DIRBASE() + 'data.sys\'
+function AppPathData()		; retu HB_DIRBASE() + 'data.sys' + hb_ps()
 
 // -------------------------------------------------- //
 
@@ -194,7 +194,11 @@ static function OpenUrl( hInfo )
 	if hInfo[ 'port' ] != 80 
 		cUrl += ':' + ltrim(str( hInfo[ 'port' ] ))
 	endif				
-	
+
+#ifdef __PLATFORM__WINDOWS	
 	WAPI_ShellExecute( nil, "open", cUrl, nil, nil, SW_SHOW )		
+#else     
+	hb_run( 'xdg-open ' + cUrl  )
+#endif
 
 retu nil 

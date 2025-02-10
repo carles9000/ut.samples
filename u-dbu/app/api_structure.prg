@@ -1,4 +1,4 @@
-#include 'lib\uhttpd2\uhttpd2.ch'
+#include 'lib/uhttpd2/uhttpd2.ch'
 #include 'dbinfo.ch' 
 
 function Api_Structure( oDom )
@@ -258,7 +258,7 @@ static function Info( oDom )
 	local cFile    := oDom:Get( 'file' )
 	local hCfg 		:= { 'size' => '300px' }
 	local aInfo 	:= {}		
-	local cFileDbf	:= cPath + '\' + cFile 
+	local cFileDbf	:= cPath + hb_ps() + cFile 
 	local cError 	:= ''
 	local cHtml, cInfoTable
 	
@@ -425,7 +425,7 @@ static function Create_Dbf( oDom )
 		
 	//	Initialiting variables
 	
-		cFileDbf 	:= cPath + '\' + cFile
+		cFileDbf 	:= cPath + hb_ps() + cFile
 	
 	
 	//	Validate Structure 
@@ -434,6 +434,7 @@ static function Create_Dbf( oDom )
 	//	Init Process...
 	
 	//	a) If new table, only create structure
+
 	
 		if ! file( cFileDbf )
 		

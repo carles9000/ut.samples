@@ -1,5 +1,5 @@
-#include 'lib\uhttpd2\uhttpd2.ch'
-#include "lib\tweb\tweb.ch" 
+#include 'lib/uhttpd2/uhttpd2.ch'
+#include "lib/tweb/tweb.ch" 
 #include 'dbinfo.ch' 
 
 function Api_Browse( oDom )

@@ -1,6 +1,6 @@
-#include 'lib\uhttpd2\uhttpd2.ch'
+#include 'lib/uhttpd2/uhttpd2.ch'
 #include 'dbinfo.ch' 
-#include "FileIO.ch"
+#include "fileio.ch"
 
 function Api_Select_Dbf( oDom )
 
@@ -32,7 +32,7 @@ static function Load_repo( oDom )
 		retu nil 
 	endif 
 	
-	aFiles := DIrectory( cPath + '\*.dbf') 
+	aFiles := DIrectory( cPath + hb_ps() + '*.dbf') 
 	
 	if empty( aFiles )
 		oDom:SetError( 'There are no tables in <br>' + cPath )
@@ -68,7 +68,7 @@ static function Sel_and_GoStruct( oDom )
 	endif 
 	
 	cPath 	:= AppRepo2Path( cRepo ) 
-	cFile 	:= cPath + '\' + aSelected[1][ 'file' ]	
+	cFile 	:= cPath + hb_ps() + aSelected[1][ 'file' ]	
 	cAlias 	:= NewAlias()
 	
 	try 
@@ -132,7 +132,7 @@ static function Sel_and_GoBrowse( oDom )
 	endif 
 	
 	cPath 	:= AppRepo2Path( cRepo ) 
-	cFile 	:= cPath + '\' + aSelected[1][ 'file' ]
+	cFile 	:= cPath + hb_ps() + aSelected[1][ 'file' ]
 
 	oDom:DialogClose( 'dlg_seldbf' )	
 	
@@ -161,7 +161,7 @@ static function Sel_and_GoIndexes( oDom )
 	endif 
 	
 	cPath 	:= AppRepo2Path( cRepo ) 
-	cFile 	:= cPath + '\' + aSelected[1][ 'file' ]
+	cFile 	:= cPath + hb_ps() + aSelected[1][ 'file' ]
 	
 	//	Open Dbf
 	
