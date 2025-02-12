@@ -12,7 +12,12 @@ function CheckIni()
 		hIni := hb_iniRead( cFileIni, .F. )				
 	
 		hConfig[ 'port' ] 			:= Val( IniLoad( hIni, 'main', 'port', '81' ) )
-		hConfig[ 'path_mysql' ] 	:= IniLoad( hIni, 'main', 'path_mysql', 'c:\xampp\htdocs\' ) 
+
+#ifdef __PLATFORM__WINDOWS
+		hConfig[ 'path_mysql' ] := IniLoad( hIni, 'main', 'path_mysql', 'c:\xampp\htdocs\' ) 
+#else
+		hConfig[ 'path_mysql' ] := IniLoad( hIni, 'main', 'path_mysql', '' )
+#endif
 			
 		/*	Ex. Add info to ini file
 			? "Adding section 'Added', with key NEW = new"
@@ -28,11 +33,16 @@ function CheckIni()
 		cHeader += '#' + CRLF 
 		cHeader += '# Copyright 2022-2023 Charly Aubia' + CRLF
 		cHeader += '# ------------------------------------' + CRLF 
-	
+
 		hIni := {=>}
 		hIni[ 'main' ] := {=>}
 		hIni[ 'main' ][ 'port' ]		:= '81'
-		hIni[ 'main' ][ 'path_mysql' ]	:= 'c:\xampp\htdocs\'
+
+#ifdef __PLATFORM__WINDOWS
+		hIni[ 'main' ][ 'path_mysql' ] := 'c:\xampp\htdocs\'
+#else
+		hIni[ 'main' ][ 'path_mysql' ] := ''
+#endif
 		
 				
    //IF hb_iniWrite( "parseini_out.ini", hIni, "#Generated file; don't touch", "#End of file" )

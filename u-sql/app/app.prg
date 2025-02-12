@@ -14,7 +14,7 @@ REQUEST HB_CODEPAGE_ESMWIN
 
 #define VK_ESCAPE	27
 #define APP_TITLE 		'U-Sql'
-#define APP_VERSION 	'v1.0'
+#define APP_VERSION 	'v1.0a'
 
 // -------------------------------------------------- //
 
@@ -85,16 +85,16 @@ RETURN 0
 function ServerInfo( h) 	
 	
 	local hCfg 	:= UGetServerInfo()
-	local cLibName	:= HB_GetEnv( 'WDO_PATH_MYSQL' ) + 'libmysql64.dll'	
+	local cLibName	:= ''
 	local cMsg 	:= 'Server ' + APP_TITLE + ' ' + APP_VERSION + ' was started...'
 	local nLen 	:= len( cMsg )
 
-	hCfg[ 'path' ] 			:= HB_DIRBASE()		
-	hCfg[ 'os' ] 			:= os()
-	hCfg[ 'harbour' ] 		:= version()
+	hCfg[ 'path' ] 		:= HB_DIRBASE()		
+	hCfg[ 'os' ] 		:= os()
+	hCfg[ 'harbour' ] 	:= version()
 	hCfg[ 'builddate' ] 	:= HB_BUILDDATE()
-	hCfg[ 'compiler' ] 		:= HB_compiler()
-	hCfg[ 'codepage' ] 		:= hb_SetCodePage() + '/' + hb_cdpUniID( hb_SetCodePage() )
+	hCfg[ 'compiler' ] 	:= HB_compiler()
+	hCfg[ 'codepage' ] 	:= hb_SetCodePage() + '/' + hb_cdpUniID( hb_SetCodePage() )
 	hCfg[ 'version_tweb' ] 	:= TWebVersion()
 
 	CConsole Replicate( '-', nLen )
@@ -103,7 +103,12 @@ function ServerInfo( h)
 	
 
 	Console  'Path.............: ' + lower( hCfg[ 'path' ] )
+
+#ifdef __PLATFORM__WINDOWS	
+	cLibName	:= HB_GetEnv( 'WDO_PATH_MYSQL' ) + 'libmysql64.dll'
 	Console  'Path mysql.......: ' + h[ 'path_mysql' ] 		
+#endif
+		
 	Console  'Version httpd2...: ' + hCfg[ 'version' ] 	
 	Console  'Start............: ' + hCfg[ 'start' ] 		
 	Console  'Port.............: ' + ltrim(str(hCfg[ 'port' ])) 		
@@ -116,12 +121,17 @@ function ServerInfo( h)
 	Console  'Codepage.........: ' + hCfg[ 'codepage' ] 	
 	Console  'UTF8 (actived)...: ' + if( hCfg[ 'utf8' ], 'Yes', 'No' )
 	
-	cMsg	:= 'MySql dll........: ' + cLibName + ' => ' + if( file( cLibName ), 'Ready', 'Fail' )
+#ifdef __PLATFORM__WINDOWS		
+        cMsg	:= 'MySql dll........: ' + cLibName + ' => ' + if( file( cLibName ), 'Ready', 'Fail' )
 	nLen 	:= len( cMsg )
-	
-	Console  Replicate( '-', nLen )
+    
+        Console  Replicate( '-', nLen )
 	Console  cMsg
-	Console  Replicate( '-', nLen )
+        Console  Replicate( '-', nLen )
+#else
+    Console Replicate( '-', nLen )
+#endif
+
 	Console  'Escape for exit...' 		
 
 retu nil 
@@ -156,7 +166,7 @@ retu hCfg
 
 function AppTitle() 		; retu APP_TITLE
 function AppVersion() 	; retu APP_VERSION
-function AppPathData()	; retu HB_DIRBASE() + 'data.sys\'
+function AppPathData()	; retu HB_DIRBASE() + 'data.sys' + hb_ps()
 
 // -------------------------------------------------- //
 

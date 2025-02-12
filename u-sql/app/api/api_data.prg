@@ -67,7 +67,7 @@ static function DoExe_Preview( oDom )
 			
 			//	Show dialog
 			
-				oDom:SetDialog( cId_Form, cHtml, hConsulta[ 'DESCRIPTIO' ] )	
+				oDom:SetDialog( 'dlg_preview', cHtml, hConsulta[ 'DESCRIPTIO' ] )	
 		else 
 		
 			DoExe_Consulta( oDom )
@@ -88,8 +88,6 @@ static function DoExe_Consulta( oDom )
 		hInfo[ 'consulta' ]	:= oDom:Get( 'id_consulta' )
 
 		//	Maybe we can validate authorization for access to id_consulta, but...next stage ! 
-	
-			//_d( hInfo[ 'conn' ] )
 
 	//	Load Consultation define...
 

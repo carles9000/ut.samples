@@ -63,7 +63,7 @@ static function DoInfo( oDom )
 
 	ENDIF	
 	
-	_d( aRows )
+
 /*
 				aStruct := oDb:DbStruct()		
 				

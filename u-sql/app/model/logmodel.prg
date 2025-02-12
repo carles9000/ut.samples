@@ -4,8 +4,7 @@
 #define DBF_CDX  	'log.cdx'
 #define DBF_TAG  	'date'
 
-
-CLASS LogModel  FROM TDbf
+CLASS LogModel FROM TDbf
 
 	METHOD New()             		CONSTRUCTOR				
 	
@@ -17,15 +16,14 @@ ENDCLASS
 
 METHOD New() CLASS LogModel
 
-	::lOpen 	:= .F.
-	::cDbf	 	:= DBF_NAME
-	::cCdx		:= DBF_CDX 
-	::cTag		:= DBF_TAG 
+	::lOpen := .F.
+	::cDbf	:= DBF_NAME
+	::cCdx  := DBF_CDX
+	::cTag	:= DBF_TAG
 
 	::Open()
 
 RETU SELF
-
 
 //------------------------------------------------------------ //
 

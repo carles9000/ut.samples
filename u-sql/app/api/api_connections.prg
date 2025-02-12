@@ -1,4 +1,4 @@
-#include 'lib\uhttpd2\uhttpd2.ch'
+#include 'lib/uhttpd2/uhttpd2.ch'
 
 #define DBF_NAME	'connections.dbf'
 #define DBF_CDX		'connections.cdx'
@@ -32,8 +32,7 @@ static function RowUpdate( oDom )
 	//	You need to know parameteres received from client. The best solution is 
 	//  checking to debug it, in special 'cell' parameter.	
 	
-		//	_d( oCell )	
-		
+				
 	//	 Update
 	
 		if oRepo:Update( oCell['row'][ '_recno' ], {;
