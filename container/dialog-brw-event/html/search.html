@@ -3,10 +3,10 @@
 
   local o, oDlg, oBrw, aOptions	
 	local aData := {;
-		{ 'FIRST' => 'Homer'		, 'LAST' => 'Hoaks', 'AGE' => 38 },;
-		{ 'FIRST' => 'Jean-Piere'	, 'LAST' => 'Thain', 'AGE' => 58 },;
-		{ 'FIRST' => 'Steve'		, 'LAST' => 'Staro', 'AGE' => 26 } ;
-	}
+		{ 'FIRST' => 'Homer', 'LAST' => 'Hoaks', 'AGE' => 3 },;
+		{ 'FIRST' => 'Jean-Piere', 'LAST' => 'Thain', 'AGE' => 58 },;
+		{ 'FIRST' => 'Steve', 'LAST' => 'Staro', 'AGE' => 26 };
+	    }
 
 	DEFINE DIALOG oDlg
 		DEFINE FORM o ID 'listProducts' API 'myapi' OF oDlg
@@ -28,9 +28,9 @@
 		 aEvents := { { 'name' => 'cellClick', 'proc' => 'testpdto' }	}
 		 
 		 DEFINE BROWSE oBrw ID 'tableListProducts' OPTIONS aOptions EVENTS aEvents OF o
-			 COL oCol TO oBrw CONFIG { 'title' => "<span class='header-font-size'>Nombre</span>", 'field' => "FIRST"		, 'cssClass' => "no-bold cell-font-size", 'resizable' => .f. , 'headerSort' => .f. , ;
-			 
-			 COL oCol TO oBrw CONFIG { 'title' => "<span class='header-font-size'>Edad</span>", 'field' => "AGE"	, 'cssClass' => "no-bold cell-font-size", 'resizable' => .f. , 'headerSort' => .f. , ;
+			 COL oCol TO oBrw CONFIG { 'title' => "<span class='header-font-size'>Nombre</span>", 'field' => "FIRST"		, 'cssClass' => "no-bold cell-font-size", 'resizable' => .f. , 'headerSort' => .f. }
+			
+			 COL oCol TO oBrw CONFIG { 'title' => "<span class='header-font-size'>Edad</span>", 'field' => "AGE"	, 'cssClass' => "no-bold cell-font-size", 'resizable' => .f. , 'headerSort' => .f. }
 			 
 			 INIT BROWSE oBrw DATA aData
 	 ENDCOL o	 

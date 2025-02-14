@@ -23,7 +23,7 @@ retu oDom:Send()
 
 static function DoConnect( oDom )
 
-	local oWDO := WDO_MYSQL():New( "localhost", "harbour", "hb1234", "dbHarbour", 3306 )
+	local oWDO := WDO_MYSQL():New( "localhost", "harbour", "hb1234", "dbharbour", 3306 )
 	local cMsg := ''
 	
 	IF ! oWDO:lConnect
@@ -48,7 +48,7 @@ static function DoExecute( oDom )
 	local aCols 	:= {}
 	local cSql 	:= oDom:Get( 'sql' )
 	local lError 	:= .f.
-	local oWDO 		:= WDO_MYSQL():New( "localhost", "harbour", "hb1234", "dbHarbour", 3306 )
+	local oWDO 		:= WDO_MYSQL():New( "localhost", "harbour", "hb1234", "dbharbour", 3306 )
 	local hRes, a, n, hConfig, aStruct 
 	
 	IF ! oWDO:lConnect
@@ -116,7 +116,7 @@ retu nil
 
 static function MyOpen() 
 
-	local oConn := WDO_MYSQL():New( "localhost", "harbour", "hb1234", "dbHarbour", 3306 )
+	local oConn := WDO_MYSQL():New( "localhost", "harbour", "hb1234", "dbharbour", 3306 )
 
 	IF ! oConn:lConnect
 		? 'Error: ', oConn:mysql_error()		

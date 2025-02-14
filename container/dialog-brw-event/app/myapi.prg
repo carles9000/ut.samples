@@ -1,6 +1,8 @@
+/*
 #xcommand TRY  => BEGIN SEQUENCE WITH {| oErr | Break( oErr ) }
 #xcommand CATCH [<!oErr!>] => RECOVER [USING <oErr>] <-oErr->
 #xcommand FINALLY => ALWAYS
+*/
 
 /*
 * myapi
@@ -64,6 +66,6 @@ return nil
 * testpdto
 */
 function testpdto( oDom )
-	oDom:Console('From function testpdto')
+	oDom:SetMsg('From function testpdto')
 return nil
 /*********/
