@@ -12,14 +12,5 @@
 
 <hr>
 
-## Ejemplos para Harbour UT. 
-
-* Si necesita una version de Harbour que se adapte al proyecto puedes usar la versión usada para el proyecto https://github.com/carles9000/ut.harbour
-
-* Puedes encontrar el código fuente de UT aqui: https://github.com/carles9000/ut 
-
-* Página principal UT https://carles9000.github.io/ 
-
-<hr> 
 
 ![alt text](https://github.com/carles9000/ut/blob/main/files/images/harbour_mini.png)

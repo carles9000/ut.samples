@@ -29,3 +29,7 @@ app\func.prg
 -lhbct
 
 hbcurl.hbc
+
+{msvc64}-ldflag=/NODEFAULTLIB:libucrt
+{msvc64}-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt

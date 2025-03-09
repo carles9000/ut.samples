@@ -28,3 +28,7 @@ app\api_mysql.prg
 {win}-lhbwin
 -lxhb
 -lhbct
+
+{msvc64}-ldflag=/NODEFAULTLIB:libucrt
+{msvc64}-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt

@@ -49,9 +49,11 @@ app\myapi.prg
 
 
 # WAPI_OutputDebugString()
-#hbwin.hbc
-#xhb.hbc
 
-#{win}-lhbwin
+{win}-lhbwin
 -lxhb
 -lhbct
+
+{msvc64}-ldflag=/NODEFAULTLIB:libucrt
+{msvc64}-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt

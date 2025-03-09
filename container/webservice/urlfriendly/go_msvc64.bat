@@ -4,14 +4,20 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Bui
 
 if exist app.exe del app.exe
 
-\harbour\bin\hbmk2 app.hbp -comp=msvc64
+set hbdir=c:\harbour
+set include=%include%;%hbdir%\include
+set lib=%lib%;%hbdir%\lib
+set path=%path%;path c:\windows\system32;c:\windows;%hbdir%;%hbdir%\bin
+
+
+hbmk2 app.hbp -comp=msvc64
 
 if errorlevel 1 goto compileerror
 
 @cls
 app.exe
 
-goto exit
+goto exit 
 
 :compileerror
 

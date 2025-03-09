@@ -26,3 +26,8 @@ app\myapi.prg
 {win}-lhbwin
 -lxhb
 -lhbct
+
+ 
+-ldflag=/NODEFAULTLIB:libucrt
+-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt

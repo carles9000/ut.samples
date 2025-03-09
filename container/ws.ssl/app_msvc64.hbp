@@ -28,3 +28,8 @@ app\api_monitor.prg
 # WAPI_OutputDebugString()
 hbwin.hbc
 xhb.hbc
+
+
+{msvc64}-ldflag=/NODEFAULTLIB:libucrt
+{msvc64}-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt

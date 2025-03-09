@@ -22,3 +22,7 @@ app\print\tpdf.prg
 hbwin.hbc
 xhb.hbc
 hbhpdf.hbc
+
+{msvc64}-ldflag=/NODEFAULTLIB:libucrt
+{msvc64}-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt

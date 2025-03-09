@@ -2,9 +2,15 @@
 
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
 
-del app.exe
 
-c:\harbour\bin\hbmk2 app_msvc64_ssl.hbp -comp=msvc64
+if exist app.exe del app.exe
+
+set hbdir=c:\harbour
+set include=%include%;%hbdir%\include
+set lib=%lib%;%hbdir%\lib
+set path=%path%;path c:\windows\system32;c:\windows;%hbdir%;%hbdir%\bin
+
+hbmk2 app_msvc64_ssl.hbp -comp=msvc64
 
 IF ERRORLEVEL 1 GOTO COMPILEERROR
 

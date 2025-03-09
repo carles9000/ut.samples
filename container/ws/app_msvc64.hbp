@@ -25,3 +25,7 @@ app\api_websocket.prg
 # WAPI_OutputDebugString()
 hbwin.hbc
 xhb.hbc
+ 
+-ldflag=/NODEFAULTLIB:libucrt
+-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt

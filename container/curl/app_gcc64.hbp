@@ -23,27 +23,13 @@ app\api_curl.prg
 -lhbct
 -lxhb
 
+# Curl 
+hbcurl.hbc
 
-
-### CURL Static 7.77 ###
--llibhbcurl
--llibcurl
--llibbrotlicommon-static
--llibbrotlidec-static
--llibbrotlienc-static
--llibnghttp2
--llibgsasl
--llibidn2
--llibssh2
--llibz
--llibcrypt32
--llibwldap32
--llibzstd
-
-### SSL Static ###
--llibcrypto
--llibhbssl
--llibssl
-
+# OpenSSL
+-lhbssl
+-lhbssls
+-llibcrypto-3-x64
+-llibssl-3-x64
 
 

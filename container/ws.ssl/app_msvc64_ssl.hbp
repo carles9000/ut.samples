@@ -25,12 +25,21 @@ app\api_monitor.prg
 -Llib\tweb\msvc64
 -ltweb
 
+# CURL
+hbcurl.hbc
+ 
+# OpensSSL
 -lhbssl
 -lhbssls
--llibcrypto-1_1-x64
--llibssl-1_1-x64
+-llibcrypto-3-x64
+-llibssl-3-x64 
 
 
 # WAPI_OutputDebugString()
 hbwin.hbc
 xhb.hbc
+
+
+{msvc64}-ldflag=/NODEFAULTLIB:libucrt
+{msvc64}-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt

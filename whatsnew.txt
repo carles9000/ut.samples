@@ -1,3 +1,5 @@
+09/03/2025 * Updated all examples with lastest UT lib compiled
+             with version Harbour 3.2.0dev (r2502211016)
 14/02/2025 * Porting some examples of /container to linux
 12/02/2025 * Porting example u-sql (mysql) to linux
 11/02/2025 * Porting example u-dbu to linux

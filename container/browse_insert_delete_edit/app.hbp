@@ -16,7 +16,7 @@ app\myapi.prg
 {mingw64}-Llib\uhttpd2\mingw64
 -luhttpd2
 
-{gcc}-Llib\tweb\gcc 
+{gcc}-Llib\tweb\gcc
 {msvc64}-Llib\tweb\msvc64
 {mingw64}-Llib\tweb\mingw64
 -ltweb
@@ -26,3 +26,8 @@ app\myapi.prg
 {win}-lhbwin
 -lxhb
 -lhbct
+
+
+{msvc64}-ldflag=/NODEFAULTLIB:libucrt
+{msvc64}-ldflag=/NODEFAULTLIB:msvcrt
+-lucrt
