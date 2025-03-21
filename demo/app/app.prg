@@ -412,7 +412,7 @@ static function OpenUrl( hInfo )
 		cUrl += ':' + ltrim(str( hInfo[ 'port' ] ))
 	endif				
 #ifdef 	__PLATFORM__WINDOWS
-//	WAPI_ShellExecute( nil, "open", cUrl, nil, nil, SW_SHOW )		
+	WAPI_ShellExecute( nil, "open", cUrl, nil, nil, SW_SHOW )		
 #else
 	? 'Pending...'
 #endif
