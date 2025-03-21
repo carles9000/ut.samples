@@ -22,9 +22,9 @@
 	
 		oWeb:AddCss( 'https://unpkg.com/tabulator-tables@5.4.3/dist/css/' + cCss )
 	
-		HTML oWeb FILE 'view/menu.html' PARAMS oWeb, 'Server_Info', hCredentials
+		HTML oWeb FILE 'view/menu.html' PARAMS oWeb, 'Mysql_Info', hCredentials
 		
-		DEFINE FORM o ID 'myform' API 'api_mysql_info' ON INIT 'initinfo' OF oWeb 			
+		DEFINE FORM o ID 'myform' API 'api_mysql_info' OF oWeb 			
 		
 		HTML o FILE 'view/crumb.html' PARAMS o, 'Server Info' 				
 		
