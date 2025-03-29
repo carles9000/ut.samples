@@ -1,0 +1,42 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb	
+	LOCAL cInfo := ''
+	
+	TEXT TO cInfo 
+<code>Scenario: Imagine a process that initializes an object that can create a connection each time it is run. 
+This initialization can take a few seconds. Once the connection is established, I retrieve data and return the information to the client.
+<br><br>UT creates a 60-second keep-alive connection by default. This means that the connection we created the first time remains open for this amount of time.
+We will use the UDataKeepAlive( [bInit] ) function to retrieve a variable of any type, including an object. If it does not exist, the <bInit> 
+codeblock is executed to initialize the variable.
+In this example, the first time we connect, the connection will not exist, and it will be initialized, returning the object. 
+<br><br>We then manipulate the object, in this case retrieving data. Subsequently, we connect within the 60-second persistence period, 
+the system will collect the same object and return it without having to create a new connection, increasing system performance.
+<br><br>If no new requests are executed, the object will self-destruct.	
+<br><br>Summary: The first execution will take approximately 2 seconds to respond. Subsequent executions will be instantaneous!
+	ENDTEXT
+	
+	
+	
+	DEFINE WEB oWeb TITLE 'Harbour UT' 			
+		
+		DEFINE FORM o ID 'myform' API 'myapi' OF oWeb							
+
+		INIT FORM o	
+		
+			SAY VALUE '<h1>UDataKeepAlive example !</h1>' ALIGN 'center' GRID 12  OF o									
+			SAY VALUE '<h3>High performance</h3><hr>' ALIGN 'center' GRID 12  OF o									
+			
+			ROWGROUP o HALIGN 'center'				
+				BUTTON GROUP ID 'btn3' LABEL 'Test DataKeepAlive' ALIGN 'center' WIDTH '250px'  ACTION 'keepalive' OF o				
+			ENDROW o
+			
+			ROWGROUP o HALIGN 'center'				
+				SAY PROMPT cInfo ALIGN 'center' GRID 12 OF o						
+			ENDROW o			
+			
+		ENDFORM o			
+	
+	INIT WEB oWeb RETURN 
+?>
