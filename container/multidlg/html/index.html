@@ -1,0 +1,19 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb	
+	
+	DEFINE WEB oWeb TITLE 'Harbour UT' 			
+		
+		DEFINE FORM o ID 'myform' API 'myapi' OF oWeb							
+
+		INIT FORM o	
+		
+			ROWGROUP o CLASS 'mt-5'
+				BUTTON ID 'btn' LABEL 'Test dialogs...' ALIGN 'center' WIDTH '100%' GRID 12 ACTION 'dlg_1' OF o
+			ENDROW o 
+			
+		ENDFORM o			
+	
+	INIT WEB oWeb RETURN 
+?>

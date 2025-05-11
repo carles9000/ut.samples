@@ -1,0 +1,24 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+	LOCAL o, oDlg		
+	
+	DEFINE DIALOG oDlg	
+	
+		DEFINE FORM o ID 'mydlg_1' API 'myapi' OF oDlg							
+
+		INIT FORM o					
+			SAY VALUE '<h3>Welcome to Dialog 1</h3><hr>' ALIGN 'center' GRID 12  OF o
+						
+
+			ROWGROUP o 								
+				GET ID 'myget' LABEL 'Input' VALUE str(hb_milliseconds()) GRID 12  OF o 
+			ENDROW o			
+			
+			
+			BUTTON ID 'btn' LABEL 'Go to Dlg 2' ALIGN 'center' GRID 12 ACTION 'dlg_2' OF o
+		ENDFORM o	
+
+	
+	INIT DIALOG oDlg RETURN 	
+?>
+

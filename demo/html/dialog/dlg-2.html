@@ -1,37 +1,19 @@
 <?prg
 #include "lib/tweb/tweb.ch" 
+	LOCAL o, oDlg			
+	
+	DEFINE DIALOG oDlg	
+	
+		DEFINE FORM o ID 'abc' API 'api_dialog' OF oDlg							
 
-    LOCAL o, oWeb	
-	//LOCAL cStyle  := 'disable:
-
-	DEFINE WEB oWeb TITLE 'Basic' 	
-
-		HTML oWeb FILE 'tpl\header_examples.tpl' PARAMS 'Dialogs', 'Examples'
-		
-		DEFINE FORM o ID 'myform' API 'api_dialog' OF oWeb 			
-		
-		INIT FORM o
-
-			SEPARATOR o LABEL 'Pagos example'
-			ROWGROUP o 								
-				BUTTON LABEL 'Pagos' WIDTH '200px' ACTION 'pagos' OF o 
-			ENDROW o				
+		INIT FORM o					
+			SAY VALUE '<h1>Welcome to Dialogs !' ALIGN 'center' GRID 12  OF o									
+			SAY VALUE '<h4>Basic sample (from file)<hr>' ALIGN 'center' GRID 12  OF o									
 			
-			HTML o INLINE '<div id="myform-info"></div>'
-			
-			SEPARATOR o LABEL 'Policy example'
-			ROWGROUP o 								
-				BUTTON LABEL 'Policy' WIDTH '200px' ACTION 'policy' OF o 
-			ENDROW o			
-			
-			ROWGROUP o 								
-				GET ID 'name'        LABEL 'Name' 		 VALUE '' GRID 3 OF o
-				GET ID 'description' LABEL 'Description' VALUE '' GRID 6 OF o
-				GET ID 'price' 		 LABEL 'Price' 		 VALUE '' GRID 3 ALIGN 'center' OF o
-			ENDROW o						
-			
-		ENDFORM o
+			BUTTON ID 'btn' LABEL 'Click me!' ALIGN 'center' GRID 12 ACTION 'hello' OF o
+		ENDFORM o	
 
-	INIT WEB oWeb RETURN
+	
+	INIT DIALOG oDlg RETURN 	
 ?>
 

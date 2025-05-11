@@ -1,0 +1,18 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+	LOCAL o, oDlg	
+	LOCA cPar := pValue(1)
+	
+	DEFINE DIALOG oDlg	
+	
+		DEFINE FORM o ID 'mydlg_4' API 'myapi' OF oDlg							
+
+		INIT FORM o					
+			SAY VALUE '<h3>Welcome to Dialog 4</h3><hr>' ALIGN 'center' GRID 12  OF o					
+			SAY VALUE 'Data from Dialog 3: ' + cPar  ALIGN 'center' GRID 12  OF o		
+			
+		ENDFORM o	
+	
+	INIT DIALOG oDlg RETURN 	
+?>
+
