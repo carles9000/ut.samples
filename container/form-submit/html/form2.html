@@ -1,0 +1,28 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb	
+	LOCAL cVar1 := UPOST()[ 'myform-myget1' ]
+	LOCAL cVar2 := UPOST()[ 'myform-myget2' ] 	
+	
+	
+	DEFINE WEB oWeb TITLE 'Harbour UT' 					
+		
+		DEFINE FORM o ID 'myform' ACTION '/' OF oWeb							
+
+		INIT FORM o					
+			SAY VALUE '<h1>Welcome to Form 2 !' ALIGN 'center' GRID 12  OF o									
+			
+			ROWGROUP o 								
+				SAY ID 'mysay1' LABEL 'Var. myget1: ' + cVar1 GRID 12  OF o 
+			ENDROW o								
+			
+			ROWGROUP o 								
+				SAY ID 'mysay2' LABEL 'Var. myget2: ' + cVar2 GRID 12  OF o 				
+			ENDROW o			
+			
+			BUTTON ID 'btn' LABEL 'Go Back to Form 1 via Submit' ALIGN 'center' GRID 12 SUBMIT OF o
+		ENDFORM o			
+	
+	INIT WEB oWeb RETURN 
+?>
