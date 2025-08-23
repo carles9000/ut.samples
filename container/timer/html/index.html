@@ -1,0 +1,19 @@
+<?prg
+#include "lib/tweb/tweb.ch"
+
+    LOCAL o, oWeb
+
+	DEFINE WEB oWeb TITLE 'Harbour UT'
+
+    DEFINE FORM o ID 'myform' API 'myapi' OF oWeb
+
+		INIT FORM o
+		
+			SAY VALUE '<h4>Test timer<hr>' ALIGN 'center' GRID 12  OF o
+
+			BUTTON ID 'btn' LABEL 'Run Dialog' ALIGN 'center' GRID 12 ACTION 'run_dlg' OF o
+
+		ENDFORM o
+		
+	INIT WEB oWeb RETURN
+?>

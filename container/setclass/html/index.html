@@ -1,0 +1,25 @@
+<?prg
+#include "lib/tweb/tweb.ch"
+
+    LOCAL o, oWeb
+
+	DEFINE WEB oWeb TITLE 'Harbour UT'
+
+		DEFINE FORM o ID 'myform' API 'myapi'  OF oWeb
+
+		INIT FORM o
+		
+			SAY VALUE '<h3>Class management example !</h3><hr>' ALIGN 'center' GRID 12  OF o
+
+			ROWGROUP o
+				BUTTON ID 'id-do1_man'   LABEL 'MAN'  ACTION 'action-1'  ALIGN 'left' WIDTH '100px' GRID 2 CLASS 'btn-outline-danger'  OF o
+				BUTTON ID 'id-do1_cas'   LABEL 'CAS'  ACTION 'action-2'  ALIGN 'left' WIDTH '100px' GRID 2 CLASS 'btn-outline-success' OF o        
+			 
+				SELECT oSelect  ID 'id-ao_000_status' PROMPT 'ONE', 'TWO', 'THREE'  GRID 2 ONCHANGE 'getValues' OF o
+
+			ENDROW o
+
+		ENDFORM o
+
+	INIT WEB oWeb RETURN
+?>
