@@ -1,0 +1,28 @@
+<h3>Hello Proc 1</h3><hr>
+
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb
+
+	LOCAL hData := pValue(1)
+	
+	DEFINE WEB oWeb TITLE 'My Proc 1' 	
+		
+		DEFINE FORM o ID 'browse' API 'api_proc_1' OF oWeb 			
+
+		INIT FORM o 
+			ROWGROUP o 
+				GET ID 'id' LABEL 'Id' VALUE hb_CStr( hData[ 'id' ] ) GRID 12 OF o						
+			ENDROW o
+			
+			ROWGROUP o 
+				BUTTON ID 'btn' PROMPT 'Show value...' ACTION 'hello' OF o						
+			ENDROW o
+			
+		ENDFORM o
+
+	INIT WEB oWeb RETURN
+?>
+
+
