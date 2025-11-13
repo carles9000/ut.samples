@@ -1,0 +1,25 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb	
+	
+	DEFINE WEB oWeb TITLE 'Harbour UT' 			
+		
+		DEFINE FORM o ID 'myform' API 'myapi' OF oWeb							
+
+		INIT FORM o					
+			SAY VALUE '<h1>UT ADS Sample !</h1>' ALIGN 'center' GRID 12  OF o																
+			SAY VALUE '<h4>Version ADS client: {{ AdsVersion() }}<hr>' ALIGN 'center' GRID 12  OF o									
+			
+			ROWGROUP o HALIGN 'center' 
+				DEFINE BUTTON GROUP OF o
+					BUTTON GROUP ID 'btn'  LABEL 'Status Table' ALIGN 'center' GRID 4 ACTION 'status' OF o
+					BUTTON GROUP ID 'btn1' LABEL 'Encrypt' 		ALIGN 'center' GRID 4 ACTION 'encrypt' OF o
+					BUTTON GROUP ID 'btn2' LABEL 'Decrypt' 		ALIGN 'center' GRID 4 ACTION 'decrypt' OF o
+				ENDGROUP OF o 
+			ENDROW o 
+			
+		ENDFORM o			
+	
+	INIT WEB oWeb RETURN 
+?>
