@@ -1,0 +1,26 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb	
+	
+	DEFINE WEB oWeb TITLE 'Harbour UT' 			
+		
+		DEFINE FORM o ID 'myform' API 'myapi' OF oWeb							
+
+		INIT FORM o			
+			ROWGROUP o
+				SAY VALUE '<h1>NASA Acces !' ALIGN 'center' CLASS 'mt-5' GRID 12  OF o		
+			ENDROW o 
+			
+			ROWGROUP o HALIGN 'center'
+				GET ID 'name' VALUE '' PLACEHOLDER 'Your name...' LABEL 'Login' ALIGN 'center' GRID 6 OF o
+			ENDROW o
+			
+			ROWGROUP o
+				BUTTON ID 'btn' LABEL 'Access' ALIGN 'center' GRID 12 ACTION 'login' OF o
+			ENDROW o
+				
+		ENDFORM o			
+	
+	INIT WEB oWeb RETURN 
+?>

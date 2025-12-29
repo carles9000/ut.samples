@@ -1,0 +1,37 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb, hCredentials
+	
+	if ! USessionReady()
+		URedirect( 'login' )
+		retu nil 
+	endif
+	
+	hCredentials := USession( 'credentials' )		
+	
+	MyLog( hCredentials[ 'user' ] , 'module-index', UGetSession()[ 'sid' ] )
+	
+	DEFINE WEB oWeb TITLE 'Harbour UT' 			
+		
+		DEFINE FORM o ID 'myform' API 'myapi' OF oWeb							
+
+		INIT FORM o					
+			SAY VALUE '<h1>Module was loaded !</h1><hr>' ALIGN 'center' CLASS 'mt-5' GRID 12  OF o									
+			SAY VALUE '<h3>Welcome: ' + hCredentials[ 'user' ] + '/' + hCredentials[ 'cargo' ] ALIGN 'center' GRID 12  OF o
+			SAY VALUE '<h5>UT Version: ' + UVersion()  ALIGN 'center' GRID 12  OF o
+			SAY VALUE '<h5>IP: ' + UGetIp()  ALIGN 'center' GRID 12  OF o
+			SAY VALUE '<h5>sid: ' + UGetSession()[ 'sid' ]  ALIGN 'center' GRID 12  OF o
+			SAY VALUE '<h5>' + dtoc(date()) + ' ' + time() + '</h5>'  ALIGN 'center' GRID 12  OF o
+								
+			ROWGROUP o HALIGN 'center'
+				DEFINE BUTTON GROUP OF o 
+					BUTTON GROUP ID 'btn1' LABEL 'Reload' ALIGN 'center' GRID 4 ACTION 'reload' OF o
+					BUTTON GROUP ID 'btn2' LABEL 'Logout' ALIGN 'center' GRID 4 ACTION 'logout' OF o
+					BUTTON GROUP ID 'btn3' LABEL 'Search' ALIGN 'center' GRID 4 ACTION 'search' OF o
+				ENDGROUP OF o
+			ENDROW o
+		ENDFORM o			
+	
+	INIT WEB oWeb RETURN 
+?>

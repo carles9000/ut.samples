@@ -1,0 +1,38 @@
+<?prg
+#include "lib/tweb/tweb.ch" 
+
+    LOCAL o, oWeb, hCredentials
+	
+	if ! USessionReady()
+		URedirect( 'login' )
+		retu nil 
+	endif
+	
+	hCredentials := USession( 'credentials' )		
+	
+	MyLog( hCredentials[ 'user' ] , 'module-search', UGetSession()[ 'sid' ] )
+	
+	DEFINE WEB oWeb TITLE 'Harbour UT' 			
+		
+		DEFINE FORM o ID 'myform' API 'myapi' OF oWeb							
+
+		INIT FORM o			
+			ROWGROUP o
+				SAY VALUE '<h1>Search SID</h1>' ALIGN 'center' CLASS 'mt-5' GRID 12  OF o		
+			ENDROW o 
+			
+			ROWGROUP o HALIGN 'center'
+				GET ID 'sid' VALUE '' LABEL 'SID' ALIGN 'center' GRID 6 OF o
+			ENDROW o
+			
+			ROWGROUP o HALIGN 'center'
+				DEFINE BUTTON GROUP OF o 
+					BUTTON GROUP ID 'btn1' LABEL 'Search' ALIGN 'center' GRID 4 ACTION 'search_sid' OF o
+					BUTTON GROUP ID 'btn2' LABEL 'Reload' ALIGN 'center' GRID 4 ACTION 'reload' OF o
+				ENDGROUP OF o
+			ENDROW o
+				
+		ENDFORM o			
+	
+	INIT WEB oWeb RETURN 
+?>
